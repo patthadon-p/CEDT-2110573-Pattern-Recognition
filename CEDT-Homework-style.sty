@@ -1,3 +1,7 @@
+% ==============================================
+% Pattern Regognition Edition
+% ==============================================
+
 \NeedsTeXFormat{LaTeX2e}
 
 
@@ -88,47 +92,87 @@
 }
 
 
-% =========================== Problem environment ===========================
+% =========================== T environment ===========================
 %Counter
-\newcounter{problem}
-\renewcommand{\theproblem}{\arabic{problem}}
+\newcounter{Tproblem}
+\renewcommand{\theTproblem}{\arabic{Tproblem}}
 
 % Storage for used numbers
-\newcommand{\usedproblems}{}
+\newcommand{\usedTproblems}{}
 
 % Recursive macro to find next unused number
-\newcommand{\nextunusedproblem}{
-  \stepcounter{problem}
-  \edef\thisNum{\theproblem}
-  \ifinlist{\thisNum}{\usedproblems}
-    {\nextunusedproblem} % continue recursion
+\newcommand{\nextunusedTproblem}{
+  \stepcounter{Tproblem}
+  \edef\thisNum{\theTproblem}
+  \ifinlist{\thisNum}{\usedTproblems}
+    {\nextunusedTproblem} % continue recursion
     {} % stop if unused
 }
 
-\newenvironment{problem}[1][]{
+\newenvironment{Tproblem}[1][]{
   \vspace{1em}
   \def\maybeNum{#1}
   \ifx\maybeNum\empty
     % auto mode
-    \nextunusedproblem
+    \nextunusedTproblem
   \else
     % manual mode
-    \setcounter{problem}{\maybeNum}
-    \edef\thisNum{\theproblem}
-    \ifinlist{\thisNum}{\usedproblems}
-      {\PackageWarning{problem}{Problem number \thisNum\space already used; reusing it}}%
+    \setcounter{Tproblem}{\maybeNum}
+    \edef\thisNum{\theTproblem}
+    \ifinlist{\thisNum}{\usedTproblems}
+      {\PackageWarning{Tproblem}{Problem number \thisNum\space already used in T environment; reusing it}}%
       {}
   \fi
   % Now record number only once
-  \ifinlist{\thisNum}{\usedproblems}{}{
-    \listadd{\usedproblems}{\thisNum}
+  \ifinlist{\thisNum}{\usedTproblems}{}{
+    \listadd{\usedTproblems}{\thisNum}
   }
   % Typeset
-  \par\noindent\textbf{Problem \thisNum. }\ignorespaces
+  \par\noindent\textbf{T\thisNum. }\ignorespaces
 }{
   \par\vspace{10pt}
 }
 
+% =========================== OT environment ===========================
+%Counter
+\newcounter{OTproblem}
+\renewcommand{\theOTproblem}{\arabic{OTproblem}}
+
+% Storage for used numbers
+\newcommand{\usedOTproblems}{}
+
+% Recursive macro to find next unused number
+\newcommand{\nextunusedOTproblem}{
+  \stepcounter{OTproblem}
+  \edef\thisNum{\theOTproblem}
+  \ifinlist{\thisNum}{\usedOTproblems}
+    {\nextunusedOTproblem} % continue recursion
+    {} % stop if unused
+}
+
+\newenvironment{OTproblem}[1][]{
+  \vspace{1em}
+  \def\maybeNum{#1}
+  \ifx\maybeNum\empty
+    % auto mode
+    \nextunusedOTproblem
+  \else
+    % manual mode
+    \setcounter{OTproblem}{\maybeNum}
+    \edef\thisNum{\theOTproblem}
+    \ifinlist{\thisNum}{\usedOTproblems}
+      {\PackageWarning{OTproblem}{Problem number \thisNum\space already used in OT environment; reusing it}}%
+      {}
+  \fi
+  % Now record number only once
+  \ifinlist{\thisNum}{\usedOTproblems}{}{
+    \listadd{\usedOTproblems}{\thisNum}
+  }
+  % Typeset
+  \par\noindent\textbf{OT\thisNum. }\ignorespaces
+}{
+  \par\vspace{10pt}
+}
 
 % =========================== Common math shortcuts ===========================
 \newcommand{\R}{\mathbb{R}}
@@ -168,20 +212,42 @@
   leftmargin=*
 }
 
-\newlist{subproblems}{enumerate}{2}
-\setlist[subproblems]{
-  label*=\arabic{problem}.\arabic*,
-  ref=\arabic{problem}.\arabic*,
+% T problem based subproblems
+\newlist{Tsubproblems}{enumerate}{2}
+\setlist[Tsubproblems]{
+  label*=T\arabic{Tproblem}.\arabic*,
+  ref=T\arabic{Tproblem}.\arabic*,
   wide=0pt,
   itemsep=2pt,
   parsep=0pt,
   leftmargin=*
 }
 
-\newlist{subsubproblems}{enumerate}{3}
-\setlist[subsubproblems]{
-  label*=\arabic{problem}.\arabic{subproblemsi}.\arabic*,
-  ref=\arabic{problem}.\arabic{subproblemsi}.\arabic*,
+\newlist{Tsubsubproblems}{enumerate}{3}
+\setlist[Tsubsubproblems]{
+  label*=T\arabic{Tproblem}.\arabic{Tsubproblemsi}.\arabic*,
+  ref=T\arabic{Tproblem}.\arabic{Tsubproblemsi}.\arabic*,
+  wide=0pt,
+  itemsep=2pt,
+  parsep=0pt,
+  leftmargin=*,
+}
+
+% OT problem based subproblems
+\newlist{OTsubproblems}{enumerate}{2}
+\setlist[OTsubproblems]{
+  label*=OT\arabic{OTproblem}.\arabic*,
+  ref=OT\arabic{OTproblem}.\arabic*,
+  wide=0pt,
+  itemsep=2pt,
+  parsep=0pt,
+  leftmargin=*
+}
+
+\newlist{OTsubsubproblems}{enumerate}{3}
+\setlist[OTsubsubproblems]{
+  label*=OT\arabic{OTproblem}.\arabic{OTsubproblemsi}.\arabic*,
+  ref=OT\arabic{OTproblem}.\arabic{OTsubproblemsi}.\arabic*,
   wide=0pt,
   itemsep=2pt,
   parsep=0pt,
@@ -211,45 +277,19 @@
   #1,
 }
 
-% =========================== To Submit ===========================
-\newtcolorbox{tosubmit}[1][]{
+% =========================== Proof ===========================
+\newtcolorbox{proofbox}[1][]{
   enhanced,
   breakable,
-  colback=yellow!5!white,
-  colframe=red!65!black,
+  colback=blue!5!white,
+  colframe=blue!75!black,
   fonttitle=\bfseries,
-  title=TO SUBMIT,
-  coltitle=white,
-  attach boxed title to top center={yshift=-2mm}, % center title,
-  before upper={\setlength{\parindent}{0pt}\noindent},
-  boxed title style={
-    colback=red!65!black,     % background of title
-    colframe=red!65!black,    % border same as background
-    width=0.5\linewidth,      % make title box narrower
-    sharp corners,            % or rounded corners
-    boxrule=0pt,              % remove border line
-    enlarge left by=0mm,
-    enlarge right by=0mm,
-    halign=center,            % center text inside
-  },
-  parbox=false,
-  #1,
-}
-
-\newtcolorbox{submit-solution}[1][]{
-  enhanced,
-  colback=red!3!white,
-  colframe=red!50!black,
-  fonttitle=\bfseries,
-  title=Solution.\enspace,
-  coltitle=red!50!black,
+  title=\textit{Proof}.\enspace,
+  coltitle=blue!75!black,
   attach title to upper,
-  boxed title style={colback=red!10!white},
+  boxed title style=colback=blue!25!white,
   #1,
 }
-
-\newcommand{\submitsolution}{\par\noindent\textbf{\textcolor{red!50!black}{Solution.\enspace}}}
-
     
 % =========================== Coding ===========================
 \tcbuselibrary{listings,breakable,skins}
