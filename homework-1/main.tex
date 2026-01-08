@@ -8,30 +8,35 @@
 
 \begin{document}
 \subject[2110573 - Pattern Recognition]
-\hwtitle{1}{}{Week 1}{Patthadon Phengpinij}{ChatGPT}
+\hwtitle{1}{}{Week 1 - Clustering and Regression}{Patthadon Phengpinij}{ChatGPT}
 
 
 % ================================================================================ %
-\section{PUT THE SECTION HERE}
+\section{Metrics}
 % ================================================================================ %
 
+In a population where the amount of cats is equal to the amount of dogs.
+Considering the following classification results from a classifier.
 
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{|c|c|c|}
+    \hline
+    \text{Model A} & \text{Predictied dog} & \text{Predictied cat} \\
+    \hline\hline
+    \text{Actual dog} & 30 & 20 \\
+    \hline
+    \text{Actual cat} & 10 & 40 \\
+    \hline\hline
+\end{array}
+\]
 
 % ================================================================================ %
-%                                    Problem 0x                                    %
+%                                    Problem T01                                   %
 % ================================================================================ %
-\begin{problem}
-Here's problem statement.
-\begin{codingbox}
-print("You can insert code like this")
-\end{codingbox}
-You can insert sub-problem
-\begin{subproblems}
-    \item Here's sub-problem a.
-    \item Here's sub-problem b.
-    \item Here's sub-problem c.
-\end{subproblems}
-\end{problem}
+\begin{Tproblem}
+What is the accuracy of Model A?
+\end{Tproblem}
 
 \begin{solution}
 The solution goes here.
@@ -40,19 +45,433 @@ The solution goes here.
 
 
 % ================================================================================ %
-%                                    Problem 0y                                    %
+%                                    Problem T02                                   %
 % ================================================================================ %
-\begin{tosubmit}
-\problem
-Here's the problem statement for \textbf{MANDATORY} problem.
+\begin{Tproblem}
+Consider cats as `class 1' (positive) and dogs as `class 0' (negative),
+calculate the precision, recall, and F1.
+\end{Tproblem}
 
-\par\noindent\submitsolution
-Here's the solution for the \textbf{MANDATORY} problem. \\
-ABC.
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
 
-\proof
-Here's the proof for the \textbf{MANDATORY} problem.
-\end{tosubmit}
+
+% ================================================================================ %
+%                                    Problem T03                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Consider class cat as `class 0' and class dog as `class 1',
+calculate the precision, recall, and F1.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\paragraph{\textit{Note:}}
+It is important to specify the `positive' class when you calculate precision, recall, and F1.
+If there are more than two classes, it is usually done in a one versus-all setting where one class is
+considered positive and the rest of the classes are considered negative.
+
+% ================================================================================ %
+%                                    Problem T04                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Now consider a lopsided population where there are 80\% cats.
+What is the accuracy of Model A? Using dog as the positive class, what is the precision, recall, and F1?
+Explain how and why these numbers change (or does not change) from the previous questions.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT01                                   %
+% ================================================================================ %
+\begin{OTproblem}
+Consider the equations for accuracy and F1
+\[
+Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+\]
+\[
+F1 = \frac{2TP}{2TP + FP + FN}
+\]
+When will accuracy be equal, greater, or less than F1?
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{Clustering}
+% ================================================================================ %
+
+Recall from lecture that K-means has two main steps: the points assignment step, and the mean update step.
+After the initialization of the centroids, we assign each data point to a centroid.
+Then, each centroids are updated by re-estimating the means.
+
+\par Concretely, if we are given \( N \) data points, \( x_1 \), \( x_2 \), ..., \( x_N \), and we would like to form K clusters.
+We do the following;
+
+\begin{enumerate}
+    \item \textbf{Initialization:} Pick K random data points as K centroid locations \( c_1 \), \( c_2 \), ..., \( c_K \).
+    \item \textbf{Assign:} For each data point k, find the closest centroid. Assign that data point to the centroid.
+    The distance used is typically Euclidean distance.
+    \item \textbf{Update:} For each centroid, calculate the mean from the data points assigned to it.
+    \item \textbf{Repeat:} Repeat step 2 and 3 until the centroids stop changing (convergence).
+\end{enumerate}
+
+\par\noindent Given the following data points in x-y coordinates (2 dimensional)
+
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{|c|c|}
+    \hline
+    x & y \\
+    \hline
+    1 & 2 \\
+    3 & 3 \\
+    2 & 2 \\
+    8 & 6 \\
+    7 & 8 \\
+    6 & 7 \\
+    -3 & -3 \\
+    -2 & -4 \\
+    -7 & -7 \\
+    \hline
+\end{array}
+\]
+
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{images/clustering_data.png}
+\end{center}
+
+
+% ================================================================================ %
+%                                    Problem T05                                   %
+% ================================================================================ %
+\begin{Tproblem}
+If the starting points are \( (3, 3) \), \( (2, 2) \), and \( (-3, -3) \).
+Describe each assign and update step. What are the points assigned?
+What are the updated centroids? You may do this calculation by hand or write a program to do it.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T06                                   %
+% ================================================================================ %
+\begin{Tproblem}
+If the starting points are \( (-3, -3) \), \( (2, 2) \), and \( (-7, -7) \), what happens?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T07                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Between the two starting set of points in the previous two questions, which one do you think is better?
+How would you measure the `goodness' quality of a set of starting points?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT02                                   %
+% ================================================================================ %
+\begin{OTproblem}
+What would be the best K for this question? Describe your reasoning.
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{My heart will go on}
+% ================================================================================ %
+
+\paragraph{\textit{Note:}}
+Many parts of this exercise are adapted from Kaggle Python Tutorial on Machine Learning
+
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{images/my_heart_will_go_on.png}
+\end{center}
+
+\noindent In this part of the exercise we will work on the Titanic dataset provided by Kaggle.
+The Titanic dataset contains information of the passengers boarding the Titanic on its final voyage.
+We will work on predicting whether a given passenger will survive the trip.
+
+Let's launch Jupyter and start coding!
+
+We start by importing the data using Pandas.
+
+\begin{codingbox}
+train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
+train = pd.read_csv(train_url) #training set
+
+test_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
+test = pd.read_csv(test_url) #test set
+\end{codingbox}
+
+Both train and test are dataframes.
+Use the function \texttt{train.head()} and \texttt{train.tail()} to explore the data.
+What do you see?
+
+Use the function \texttt{describe()} to get a better understanding of the data.
+You can read the meaning of the data fields at \href{https://www.kaggle.com/c/titanic/data}{https://www.kaggle.com/c/titanic/data}.
+
+Looking at the data, you will notice a lot of missing values.
+For example, some age is NaN. This is normal for real world data to have some missing values.
+There are several ways to handle missing values.
+The simplest is to throw away any rows that have missing values.
+However, this usually reduce the amount of training data you have.
+Another method is to guess what the missing value should be.
+The simplest guess is to use the Median or Mode of the data.
+For this exercise we will proceed with this.
+
+% ================================================================================ %
+%                                    Problem T08                                   %
+% ================================================================================ %
+\begin{Tproblem}
+What is the median age of the training set?
+You can easily modify the age in the dataframe by:
+
+\begin{codingbox}
+train["Age"] = train["Age"].fillna(train["Age"].median())
+\end{codingbox}
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+Note that you need to modify the code above a bit to fill with \texttt{mode()}
+because \texttt{mode()} returns a series rather than a single value.
+
+% ================================================================================ %
+%                                    Problem T09                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Somefields like `Embarked' are categorical.
+They need to be converted to numbers first.
+We will represent S with 0, C with 1, and Q with 2. What is the mode of Embarked?
+Fill the missing values with the mode.
+You can set the value of Embarked easily with the following command.
+
+\begin{codingbox}
+train.loc[train["Embarked"] == "S", "Embarked"] = 0
+\end{codingbox}
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+Do the same for Sex.
+
+% ================================================================================ %
+%                                    Problem T10                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Write a logistic regression classifier using gradient descent as learned in class.
+Use PClass, Sex, Age, and Embarked as input features.
+You can extract the features from Pandas to Numpy by:
+
+\begin{codingbox}
+data = np.array(train[["PClass","Sex","Age","Embarked"]].values)
+\end{codingbox}
+
+\noindent Check the datatype of each values in data, does it make sense?
+You can force the data to be of any datatype by using the command:
+
+\begin{codingbox}
+data = np.array(train[["PClass","Sex","Age","Embarked"]].values, dtype = float)
+\end{codingbox}
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+When you evaluate the trained model on the test set, you will need to make a final decision.
+Since logistic regression outputs a score between 0 and 1,
+you will need to decide whether a score of 0.3 (or any other number) means the passenger survive or not.
+For now, we will say if the score is greater than or equal to 0.5, the passenger survives.
+If the score is lower than 0.5 the passenger will be dead.
+This process is often called 'Thresholding.'
+We will talk more about this process later in class.
+
+To evaluate your results, we will use Kaggle.
+Kaggle is a website that hosts many machine learning competitions.
+Many companies put up their data as a problem for anyone to participate.
+If you are looking for a task for your course project, Kaggle might be a good place to start.
+You will need to make sure that your output is in line with the submission requirements of Kaggle:
+a csv file with exactly 418 entries and two columns: PassengerId and Survived.
+Then, use the code provided to make a new dataframe using \texttt{DataFrame()},
+and create a csv file using \texttt{to\_csv()} method from Pandas.
+
+To submit your prediction, you must first sign-up for an account on \href{Kaggle}{kaggle.com}.
+Click participate to the competition at \href{https://www.kaggle.com/c/titanic}{https://www.kaggle.com/c/titanic} then submit your csv file for the score.
+
+The output file should have two columns: the passengerId and a 0,1 decision (0 for dead, 1 for survive).
+As shown below:
+
+\begin{codingbox}
+PassengerId,Survived
+892,0
+893,1
+894,0
+\end{codingbox}
+
+% ================================================================================ %
+%                                    Problem T11                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Submit a screenshot of your submission (with the scores).
+Upload your code to courseville.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T12                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Try adding some higher order features to your training ( \( x^2_1 \), \( x_1 x_2 \), ...).
+Does this model has better \textbf{accuracy on the training set}?
+How does it perform on the \textbf{test set}?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T13                                   %
+% ================================================================================ %
+\begin{Tproblem}
+What happens if you reduce the amount of features to just Sex and Age?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT03                                   %
+% ================================================================================ %
+\begin{OTproblem}
+We want to show that matrix inversion yields the same answer as the gradient descent method.
+However, there is no closed form solution for logistic regression.
+Thus, we will use normal linear regression instead.
+Re-do the Titanic task as a regression problem by using linear regression.
+Use the gradient descent method.
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT04                                   %
+% ================================================================================ %
+\begin{OTproblem}
+Now try using matrix inversion instead.
+However, are the weights learned from the two methods similar?
+Report the Mean Squared Errors (MSE) of the difference between the two weights.
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{Fun with matrix algebra [OPTIONAL]}
+% ================================================================================ %
+
+Prove the following statements.
+All of them can be solved by first expanding out the matrix notation as a combination of their elements,
+and then use the definitions of trace and matrix derivatives to help finish the proof.
+For example, the \( (i,j) \) element of \( Y = AB \) is \( Y_{i, j} = \sum_m A_{i, m} B_{m, j} \).
+
+% ================================================================================ %
+%                                   Problem OT05                                   %
+% ================================================================================ %
+\begin{OTproblem}
+\( \nabla_A tr \paren{AB} = B^T \)
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT06                                   %
+% ================================================================================ %
+\begin{OTproblem}
+\( \nabla_{A^T} f(A) = \paren{ \nabla_A f(A) }^T \)
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT07                                   %
+% ================================================================================ %
+\begin{OTproblem}
+\( \nabla_A tr \paren{AB A^T C} = CAB + C^T A B^T \)
+
+\textit{Hint:} Try first solving the easier equation of \( \nabla_A tr \paren{BAC} = \paren{CB}^T = B^T C^T \)
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
 % ================================================================================ %
 
 
