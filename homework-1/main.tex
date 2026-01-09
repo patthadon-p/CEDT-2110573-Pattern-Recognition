@@ -39,10 +39,28 @@ What is the accuracy of Model A?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+First, assume that we consider dogs as `class 0' (negative) and cats as `class 1' (positive).
+From the confusion matrix above, we can identify the following values:
+\begin{itemize}
+    \item True Positives (TP): 40 (Actual cat predicted as cat)
+    \item True Negatives (TN): 30 (Actual dog predicted as dog)
+    \item False Positives (FP): 10 (Actual cat predicted as dog)
+    \item False Negatives (FN): 20 (Actual dog predicted as cat)
+\end{itemize}
+
+The formula for accuracy is given by:
+\begin{align*}
+    Accuracy &= \frac{TP + TN}{TP + TN + FP + FN} \\
+    &= \frac{40 + 30}{40 + 30 + 10 + 20} \\
+    &= \frac{70}{100} \\
+    Accuracy &= 0.7
+\end{align*}
+
+Thus, from the calculation above, the \textbf{Accuracy} of Model A is \( \boxed{ 0.7 \text{ or } 70\% } \).
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T02                                   %
@@ -53,10 +71,38 @@ calculate the precision, recall, and F1.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The situation is the same as in Problem T01, where we have all TP, TN, FP, and FN values identified.
+Now, we can calculate precision, recall, and F1 score using the following formulas:
+\begin{align*}
+    Precision &= \frac{TP}{TP + FP} \\
+    Recall &= \frac{TP}{TP + FN} \\
+    F1 &= \frac{2TP}{2TP + FP + FN}
+\end{align*}
+
+Substituting the values we have:
+\begin{align*}
+    Precision &= \frac{40}{40 + 10} \\
+    &= \frac{40}{50} \\
+    Precision &= 0.8 \\
+    Recall &= \frac{40}{40 + 20} \\
+    &= \frac{40}{60} \\
+    Recall &\approx 0.6667 \\
+    F1 &= \frac{(2 \times 40)}{(2 \times 40) + 10 + 20} \\
+    &= \frac{80}{80 + 30} \\
+    &= \frac{80}{110} \\
+    F1 &\approx 0.7273
+\end{align*}
+
+Thus, the calculated metrics are:
+\begin{itemize}
+    \item \textbf{Precision:} \( \boxed{ 0.8 } \)
+    \item \textbf{Recall:} \( \boxed{ \approx 0.6667 } \)
+    \item \textbf{F1 Score:} \( \boxed{ \approx 0.7273 } \)
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T03                                   %
@@ -67,7 +113,41 @@ calculate the precision, recall, and F1.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Switching the classes means we need to redefine TP, TN, FP, and FN:
+\begin{itemize}
+    \item True Positives (TP): 30 (Actual dog predicted as dog)
+    \item True Negatives (TN): 40 (Actual cat predicted as cat)
+    \item False Positives (FP): 20 (Actual dog predicted as cat)
+    \item False Negatives (FN): 10 (Actual cat predicted as dog)
+\end{itemize}
+
+Now, we can calculate precision, recall, and F1 score using the same formulas:
+\begin{align*}
+    Precision &= \frac{TP}{TP + FP} \\
+    Recall &= \frac{TP}{TP + FN} \\
+    F1 &= \frac{2TP}{2TP + FP + FN}
+\end{align*}
+
+Substituting the new values:
+\begin{align*}
+    Precision &= \frac{30}{30 + 20} \\
+    &= \frac{30}{50} \\
+    Precision &= 0.6 \\
+    Recall &= \frac{30}{30 + 10} \\
+    &= \frac{30}{40} \\
+    Recall &= 0.75 \\
+    F1 &= \frac{(2 \times 30)}{(2 \times 30) + 20 + 10} \\
+    &= \frac{60}{60 + 30} \\
+    &= \frac{60}{90} \\
+    F1 &\approx 0.6667
+\end{align*}
+
+Thus, the calculated metrics are:
+\begin{itemize}
+    \item \textbf{Precision:} \( \boxed{ 0.6 } \)
+    \item \textbf{Recall:} \( \boxed{ 0.75 } \)
+    \item \textbf{F1 Score:} \( \boxed{ \approx 0.6667 } \)
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
@@ -75,6 +155,8 @@ The solution goes here.
 It is important to specify the `positive' class when you calculate precision, recall, and F1.
 If there are more than two classes, it is usually done in a one versus-all setting where one class is
 considered positive and the rest of the classes are considered negative.
+
+\newpage
 
 % ================================================================================ %
 %                                    Problem T04                                   %
@@ -86,10 +168,60 @@ Explain how and why these numbers change (or does not change) from the previous 
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+In a lopsided population where 80\% are cats and 20\% are dogs, we need to adjust the confusion matrix accordingly.
+Assuming the same classification performance as Model A, we can scale the confusion matrix based on the new population distribution.
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{|c|c|c|}
+    \hline
+    \text{Model A} & \text{Predictied dog} & \text{Predictied cat} \\
+    \hline\hline
+    \text{Actual dog} & 12 & 8 \\
+    \hline
+    \text{Actual cat} & 16 & 64 \\
+    \hline\hline
+\end{array}
+\]
+
+Explaining the changes:
+\begin{itemize}
+    \item True Positives (TP): 12 (Actual dog predicted as dog)
+    \item True Negatives (TN): 64 (Actual cat predicted as cat)
+    \item False Positives (FP): 16 (Actual cat predicted as dog)
+    \item False Negatives (FN): 8 (Actual dog predicted as cat)
+\end{itemize}
+
+This new confusion matrix came from
+scaling down the previous counts by a factor of 0.4 for dogs (since the dog population decreased from 50 to 20)
+and scaling up by a factor of 1.6 for cats (since the cat population increased from 50 to 80).
+
+Next, we calculate the accuracy, precision, recall, and F1 score:
+\[ Accuracy = \frac{TP + TN}{TP + TN + FP + FN} = \frac{12 + 64}{12 + 64 + 16 + 8} = \frac{76}{100} = 0.76 \]
+\[ Precision = \frac{TP}{TP + FP} = \frac{12}{12 + 16} = \frac{12}{28} \approx 0.4286 \]
+\[ Recall = \frac{TP}{TP + FN} = \frac{12}{12 + 8} = \frac{12}{20} = 0.6 \]
+\[ F1 = \frac{(2 \times 12)}{(2 \times 12) + 16 + 8} = \frac{24}{24 + 24} = \frac{24}{48} = 0.5 \]
+
+Thus, the calculated metrics in the lopsided population are:
+\begin{itemize}
+    \item \textbf{Accuracy:} \( \boxed{ 0.76 \text{ or } 76\% } \) \\
+    The accuracy has increased from 0.7 to 0.76 because the model correctly classifies
+    a larger proportion of the majority class (cats).
+
+    \item \textbf{Precision:} \( \boxed{ \approx 0.4286 } \) \\
+    Precision has decreased significantly because the number of false positives (cats predicted as dogs)
+    has increased relative to true positives.
+
+    \item \textbf{Recall:} \( \boxed{ 0.6 } \) \\
+    Recall has decreased slightly from 0.6667 to 0.6, indicating that the model is missing more actual dogs.
+
+    \item \textbf{F1 Score:} \( \boxed{ 0.5 } \) \\
+    The F1 score has decreased from approximately 0.7273 to 0.5,
+    reflecting the trade-off between precision and recall in this lopsided population.
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT01                                   %
@@ -106,10 +238,59 @@ When will accuracy be equal, greater, or less than F1?
 \end{OTproblem}
 
 \begin{solution}
-The solution for the \textbf{OT} problem goes here.
+To determine when accuracy is equal to, greater than, or less than F1, we can set up the equations and analyze them.
+Setting accuracy equal to F1:
+\begin{align*}
+    Accuracy &= F1 \\
+    \frac{TP + TN}{TP + TN + FP + FN} &= \frac{2TP}{2TP + FP + FN} \\
+    (TP + TN)(2TP + FP + FN) &= (2TP)(TP + TN + FP + FN)
+\end{align*}
+
+Expanding both sides, continuing the simplification, we get:
+\begin{align*}
+    0 &= (TP - TN)(FP + FN)
+\end{align*}
+
+From the final equation, we can see that \textbf{accuracy equals F1} when either:
+\begin{itemize}
+    \item \( TP = TN \) (the number of true positives equals the number of true negatives), or
+    \item \( FP + FN = 0 \) (since both FP and FN cannot be negative, there are no false positives or false negatives,
+    meaning \textbf{perfect classification}).
+\end{itemize}
+
+Next, we analyze when accuracy is greater than F1:
+\begin{align*}
+    Accuracy &> F1 \\
+    \frac{TP + TN}{TP + TN + FP + FN} &> \frac{2TP}{2TP + FP + FN}
+\end{align*}
+
+Following similar steps as above, we got:
+\begin{align*}
+    0 &> (TP - TN)(FP + FN)
+\end{align*}
+
+Since \( FP + FN \) is always non-negative, assume imperfect classification, for the product to be negative, we must have:
+\begin{align*}
+    TP - TN &< 0 \\
+    TP &< TN
+\end{align*}
+
+Thus, we find that \textbf{accuracy is greater than F1} when:
+\[ TP < TN \text{ (the number of true positives is less than the number of true negatives)} \]
+
+On the other hand, following similar steps, we find that \textbf{accuracy is less than F1} when:
+\[ TP > TN \text{ (the number of true positives is greater than the number of true negatives)} \]
+
+Therefore, summarizing the results:
+\begin{itemize}
+    \item \( Accuracy = F1 \) when \( TP = TN \) or \( FP + FN = 0 \) (perfect classification).
+    \item \( Accuracy > F1 \) when \( TP < TN \) and \( FP + FN > 0 \) (imperfect classification).
+    \item \( Accuracy < F1 \) when \( TP > TN \) and \( FP + FN > 0 \) (imperfect classification).
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 \section{Clustering}
