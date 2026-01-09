@@ -772,6 +772,7 @@ The solution for the \textbf{OT} problem goes here.
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 \section{Fun with matrix algebra [OPTIONAL]}
@@ -789,9 +790,23 @@ For example, the \( (i,j) \) element of \( Y = AB \) is \( Y_{i, j} = \sum_m A_{
 \( \nabla_A tr \paren{AB} = B^T \)
 \end{OTproblem}
 
-\begin{solution}
-The solution for the \textbf{OT} problem goes here.
-\end{solution}
+\begin{proofbox}
+Given the function \( f(A) = tr(AB) \), we want to find the gradient of \( f \) with respect to the matrix \( A \).
+First, we can express the trace of the product \( AB \) in terms of the elements of the matrices:
+\[ tr(AB) = \sum_{i} (AB)_{i,i} = \sum_{i} \sum_{j} A_{i,j} B_{j,i} \]
+
+To find the gradient \( \nabla_A f(A) \), we need to compute the partial derivative of \( f \) with respect to each element \( A_{k,l} \):
+\[ \frac{\partial f}{\partial A_{k,l}} = \frac{\partial}{\partial A_{k,l}} \sum_{i} \sum_{j} A_{i,j} B_{j,i} \]
+
+Since the only term in the double sum that depends on \( A_{k,l} \) is when \( i = k \) and \( j = l \), we have:
+\[ \frac{\partial f}{\partial A_{k,l}} = B_{l,k} \]
+
+Thus, the gradient \( \nabla_A f(A) \) is given by the matrix whose \( (k,l) \) element is \( B_{l,k} \), which is precisely \textbf{the transpose} of matrix \( B \):
+\[ \nabla_A f(A) = B^T \]
+
+Therefore, we have shown that:
+\[ \nabla_A tr(AB) = B^T \]
+\end{proofbox}
 % ================================================================================ %
 
 
@@ -802,11 +817,27 @@ The solution for the \textbf{OT} problem goes here.
 \( \nabla_{A^T} f(A) = \paren{ \nabla_A f(A) }^T \)
 \end{OTproblem}
 
-\begin{solution}
-The solution for the \textbf{OT} problem goes here.
-\end{solution}
+\begin{proofbox}
+Let \( f(A) \) be a scalar function of the matrix \( A \).
+To prove this, we start by expressing the elements of the gradients.
+The \( (i,j) \) element of the gradient \( \nabla_A f(A) \) is given by:
+\[ (\nabla_A f(A))_{i,j} = \frac{\partial f}{\partial A_{i,j}} \]
+
+Similarly, the \( (i,j) \) element of the gradient \( \nabla_{A^T} f(A) \) is given by:
+\[ (\nabla_{A^T} f(A))_{i,j} = \frac{\partial f}{\partial (A^T)_{i,j}} \]
+
+Since \( (A^T)_{i,j} = A_{j,i} \), we can rewrite the partial derivative with respect to \( (A^T)_{i,j} \) as:
+\[ (\nabla_{A^T} f(A))_{i,j} = \frac{\partial f}{\partial (A^T)_{i,j}} = \frac{\partial f}{\partial A_{j,i}} \]
+
+Now, we can see that the \( (i,j) \) element of \( \nabla_{A^T} f(A) \) corresponds to the \( (j,i) \) element of \( \nabla_A f(A) \):
+\[ (\nabla_{A^T} f(A))_{i,j} = (\nabla_A f(A))_{j,i} \]
+
+This shows that:
+\[ \nabla_{A^T} f(A) = (\nabla_A f(A))^T \]
+\end{proofbox}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT07                                   %
@@ -817,9 +848,34 @@ The solution for the \textbf{OT} problem goes here.
 \textit{Hint:} Try first solving the easier equation of \( \nabla_A tr \paren{BAC} = \paren{CB}^T = B^T C^T \)
 \end{OTproblem}
 
-\begin{solution}
-The solution for the \textbf{OT} problem goes here.
-\end{solution}
+\begin{proofbox}
+Let \( f(A) = tr(AB A^T C) \). We want to find the gradient of \( f \) with respect to the matrix \( A \).
+First, we can express the trace in terms of the elements of the matrices:
+\[ tr(AB A^T C) = \sum_{i} (AB A^T C)_{i,i} = \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A^T_{k,l} C_{l,i} \]
+
+Since \( A^T_{k,l} = A_{l,k} \), we can rewrite the expression as:
+\[ tr(AB A^T C) = \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A_{l,k} C_{l,i} \]
+
+To find the gradient \( \nabla_A f(A) \), we need to compute the partial derivative of \( f \) with respect to each element \( A_{p,q} \):
+\[ \frac{\partial f}{\partial A_{p,q}} = \frac{\partial}{\partial A_{p,q}} \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A_{l,k} C_{l,i} \]
+
+The only terms in the triple sum that depend on \( A_{p,q} \) are those where \( i = p \) and \( j = q \) or \( l = p \) and \( k = q \).
+Thus, we have:
+\begin{align*}
+    \frac{\partial f}{\partial A_{p,q}} &= \frac{\partial}{\partial A_{p,q}} \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A_{l,k} C_{l,i} \\
+    &= \frac{\partial}{\partial A_{p,q}} \sqbracket{ \sum_{k} \sum_{l} A_{p,q} B_{q,k} A_{l,k} C_{l,p} + \sum_{i} \sum_{j} A_{i,j} B_{j,q} A_{p,q} C_{p,i} } \\
+    &= \frac{\partial}{\partial A_{p,q}} A_{p,q} \sqbracket{ \sum_{k} \sum_{l} B_{q,k} A_{l,k} C_{l,p} + \sum_{i} \sum_{j} A_{i,j} B_{j,q} C_{p,i} } \\
+    &= \sum_{k} \sum_{l} B_{q,k} A_{l,k} C_{l,p} + \sum_{i} \sum_{j} A_{i,j} B_{j,q} C_{p,i} \\
+    &= \sum_{k} \sum_{l} B_{q,k} A^T_{k,l} C_{l,p} + \sum_{i} \sum_{j} C_{p,i} A_{i,j} B_{j,q} \\
+    &= (B A^T C)_{q,p} + (C A B)_{p,q} \\
+    &= (B A^T C)^T_{p,q} + (C A B)_{p,q} \\
+    &= (C^T A B^T + C A B)_{p,q} \\
+    \frac{\partial f}{\partial A_{p,q}} &= (C A B + C^T A B^T)_{p,q}
+\end{align*}
+
+Thus, the gradient \( \nabla_A f(A) \) is given by the matrix whose \( (p,q) \) element is \( (C A B + C^T A B^T)_{p,q} \):
+\[ \nabla_A f(A) = C A B + C^T A B^T \]
+\end{proofbox}
 % ================================================================================ %
 
 
