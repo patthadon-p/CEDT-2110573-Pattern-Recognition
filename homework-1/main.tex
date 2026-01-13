@@ -44,14 +44,14 @@ From the confusion matrix above, we can identify the following values:
 \begin{itemize}
     \item True Positives (TP): 40 (Actual cat predicted as cat)
     \item True Negatives (TN): 30 (Actual dog predicted as dog)
-    \item False Positives (FP): 10 (Actual cat predicted as dog)
-    \item False Negatives (FN): 20 (Actual dog predicted as cat)
+    \item False Positives (FP): 20 (Actual dog predicted as cat)
+    \item False Negatives (FN): 10 (Actual cat predicted as dog)
 \end{itemize}
 
 The formula for accuracy is given by:
 \begin{align*}
     Accuracy &= \frac{TP + TN}{TP + TN + FP + FN} \\
-    &= \frac{40 + 30}{40 + 30 + 10 + 20} \\
+    &= \frac{40 + 30}{40 + 30 + 20 + 10} \\
     &= \frac{70}{100} \\
     Accuracy &= 0.7
 \end{align*}
@@ -81,13 +81,13 @@ Now, we can calculate precision, recall, and F1 score using the following formul
 
 Substituting the values we have:
 \begin{align*}
-    Precision &= \frac{40}{40 + 10} \\
-    &= \frac{40}{50} \\
-    Precision &= 0.8 \\
-    Recall &= \frac{40}{40 + 20} \\
+    Precision &= \frac{40}{40 + 20} \\
     &= \frac{40}{60} \\
-    Recall &\approx 0.6667 \\
-    F1 &= \frac{(2 \times 40)}{(2 \times 40) + 10 + 20} \\
+    Precision &= 0.6667 \\
+    Recall &= \frac{40}{40 + 10} \\
+    &= \frac{40}{50} \\
+    Recall &= 0.8 \\
+    F1 &= \frac{(2 \times 40)}{(2 \times 40) + 20 + 10} \\
     &= \frac{80}{80 + 30} \\
     &= \frac{80}{110} \\
     F1 &\approx 0.7273
@@ -95,8 +95,8 @@ Substituting the values we have:
 
 Thus, the calculated metrics are:
 \begin{itemize}
-    \item \textbf{Precision:} \( \boxed{ 0.8 } \)
-    \item \textbf{Recall:} \( \boxed{ \approx 0.6667 } \)
+    \item \textbf{Precision:} \( \boxed{ 0.6667 } \)
+    \item \textbf{Recall:} \( \boxed{ 0.8 } \)
     \item \textbf{F1 Score:} \( \boxed{ \approx 0.7273 } \)
 \end{itemize}
 \end{solution}
@@ -117,8 +117,8 @@ Switching the classes means we need to redefine TP, TN, FP, and FN:
 \begin{itemize}
     \item True Positives (TP): 30 (Actual dog predicted as dog)
     \item True Negatives (TN): 40 (Actual cat predicted as cat)
-    \item False Positives (FP): 20 (Actual dog predicted as cat)
-    \item False Negatives (FN): 10 (Actual cat predicted as dog)
+    \item False Positives (FP): 10 (Actual cat predicted as dog)
+    \item False Negatives (FN): 20 (Actual dog predicted as cat)
 \end{itemize}
 
 Now, we can calculate precision, recall, and F1 score using the same formulas:
@@ -130,13 +130,13 @@ Now, we can calculate precision, recall, and F1 score using the same formulas:
 
 Substituting the new values:
 \begin{align*}
-    Precision &= \frac{30}{30 + 20} \\
-    &= \frac{30}{50} \\
-    Precision &= 0.6 \\
-    Recall &= \frac{30}{30 + 10} \\
+    Precision &= \frac{30}{30 + 10} \\
     &= \frac{30}{40} \\
-    Recall &= 0.75 \\
-    F1 &= \frac{(2 \times 30)}{(2 \times 30) + 20 + 10} \\
+    Precision &= 0.75 \\
+    Recall &= \frac{30}{30 + 20} \\
+    &= \frac{30}{50} \\
+    Recall &= 0.6 \\
+    F1 &= \frac{(2 \times 30)}{(2 \times 30) + 10 + 20} \\
     &= \frac{60}{60 + 30} \\
     &= \frac{60}{90} \\
     F1 &\approx 0.6667
@@ -144,8 +144,8 @@ Substituting the new values:
 
 Thus, the calculated metrics are:
 \begin{itemize}
-    \item \textbf{Precision:} \( \boxed{ 0.6 } \)
-    \item \textbf{Recall:} \( \boxed{ 0.75 } \)
+    \item \textbf{Precision:} \( \boxed{ 0.75 } \)
+    \item \textbf{Recall:} \( \boxed{ 0.6 } \)
     \item \textbf{F1 Score:} \( \boxed{ \approx 0.6667 } \)
 \end{itemize}
 \end{solution}
@@ -195,7 +195,7 @@ This new confusion matrix came from
 scaling down the previous counts by a factor of 0.4 for dogs (since the dog population decreased from 50 to 20)
 and scaling up by a factor of 1.6 for cats (since the cat population increased from 50 to 80).
 
-Next, we calculate the accuracy, precision, recall, and F1 score:
+\hspace{4mm} Next, we calculate the accuracy, precision, recall, and F1 score:
 \[ Accuracy = \frac{TP + TN}{TP + TN + FP + FN} = \frac{12 + 64}{12 + 64 + 16 + 8} = \frac{76}{100} = 0.76 \]
 \[ Precision = \frac{TP}{TP + FP} = \frac{12}{12 + 16} = \frac{12}{28} \approx 0.4286 \]
 \[ Recall = \frac{TP}{TP + FN} = \frac{12}{12 + 8} = \frac{12}{20} = 0.6 \]
@@ -567,7 +567,7 @@ Therefore, based on the analysis and reasoning above, we can conclude that:
 Many parts of this exercise are adapted from Kaggle Python Tutorial on Machine Learning
 
 \begin{center}
-    \includegraphics[width=0.4\textwidth]{images/my_heart_will_go_on.png}
+    \includegraphics[width=0.38\textwidth]{images/my_heart_will_go_on.png}
 \end{center}
 
 \noindent In this part of the exercise we will work on the Titanic dataset provided by Kaggle.
@@ -615,7 +615,8 @@ train["Age"] = train["Age"].fillna(train["Age"].median())
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Using the Pandas library and the code provided above,
+we find that the median age of the training set is approximately \( \boxed{28.0} \) years.
 \end{solution}
 % ================================================================================ %
 
@@ -638,7 +639,22 @@ train.loc[train["Embarked"] == "S", "Embarked"] = 0
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Using the Pandas library, we can write the following code to find the mode of the 'Embarked' column and fill in the missing values:
+\begin{codingbox}
+mode_embarked = train["Embarked"].mode()[0]
+print("The mode of the 'Embarked' column is:", mode_embarked)
+
+# fill the missing values in the "Embarked" column with the mode
+train["Embarked"] = train["Embarked"].fillna(mode_embarked)
+\end{codingbox}
+
+After running the code, we find that the mode of the 'Embarked' column is \( \boxed{S} \).
+We then fill the missing values in the 'Embarked' column with this mode value.
+
+\hspace{4mm} Finally, we convert the categorical values to numerical values using the following dictionary mapping:
+\begin{codingbox}
+embarked_mapping = {"S": 0, "C": 1, "Q": 2}
+\end{codingbox}
 \end{solution}
 % ================================================================================ %
 
@@ -648,7 +664,7 @@ Do the same for Sex.
 %                                    Problem T10                                   %
 % ================================================================================ %
 \begin{Tproblem}
-Write a logistic regression classifier using gradient descent as learned in class.
+Write a linear regression classifier using gradient descent as learned in class.
 Use PClass, Sex, Age, and Embarked as input features.
 You can extract the features from Pandas to Numpy by:
 
@@ -664,8 +680,19 @@ data = np.array(train[["PClass","Sex","Age","Embarked"]].values, dtype = float)
 \end{codingbox}
 \end{Tproblem}
 
+\newpage
+
 \begin{solution}
-The solution goes here.
+After extracting the features from the Pandas DataFrame to a Numpy array and forcing the data type to float,
+we can implement a linear regression classifier using gradient descent.
+
+\hspace{4mm} The final \( \theta \) (parameters) is:
+\begin{codingbox}
+theta = [0.023536, 0.663266, 0.000802, 0.188622]
+\end{codingbox}
+
+With these parameters, we can predict the survival of passengers based on the input features.
+The MSE on the training set is approximately \( \boxed{0.185767} \).
 \end{solution}
 % ================================================================================ %
 
@@ -674,7 +701,7 @@ Since logistic regression outputs a score between 0 and 1,
 you will need to decide whether a score of 0.3 (or any other number) means the passenger survive or not.
 For now, we will say if the score is greater than or equal to 0.5, the passenger survives.
 If the score is lower than 0.5 the passenger will be dead.
-This process is often called 'Thresholding.'
+This process is often called `Thresholding.'
 We will talk more about this process later in class.
 
 To evaluate your results, we will use Kaggle.
@@ -708,7 +735,14 @@ Upload your code to courseville.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+After implementing the linear regression classifier and making predictions on the test set,
+we submit the results to Kaggle.
+The screenshot of the submission with the scores is as follows:
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/kaggle_submission.png}
+\end{center}
+
+The score obtained from the submission is \( \boxed{0.76555} \) (accuracy).
 \end{solution}
 % ================================================================================ %
 
@@ -717,13 +751,40 @@ The solution goes here.
 %                                    Problem T12                                   %
 % ================================================================================ %
 \begin{Tproblem}
-Try adding some higher order features to your training ( \( x^2_1 \), \( x_1 x_2 \), ...).
+Try adding some higher order features to your training (\( x^2_1 \), \( x_1 x_2 \), ...).
 Does this model has better \textbf{accuracy on the training set}?
 How does it perform on the \textbf{test set}?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+After adding higher order features such as \( \texttt{Pclass} \times \texttt{Embarked} \) to the training set,
+we retrain the linear regression classifier using gradient descent.
+
+The final \( \theta \) (parameters) after adding higher order features is:
+\begin{codingbox}
+theta = [0.048699, 0.66859, 0.000802, 0.238304, -0.092839]
+\end{codingbox}
+
+\hspace{4mm} With these new parameters, we evaluate the model on both the training and test sets.
+The MSE on the training set is approximately \( \boxed{0.174827} \),
+indicating an improvement in accuracy compared to the previous model.
+
+\hspace{4mm} On the test set, the accuracy obtained from the submission is \( \boxed{0.76555} \),
+which is the same as the previous model without higher order features.
+
+\hspace{4mm} Thus, while adding higher order features improved the accuracy on the training set,
+it did not lead to an improvement in accuracy on the test set.
+
+\hspace{4mm} The results can be summarized as follows:
+\begin{itemize}
+    \item Training Set MSE: \( \boxed{0.174827} \)
+    \item Test Set Accuracy: \( \boxed{0.76555} \)
+\end{itemize}
+
+The submission screenshot is as follows:
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/kaggle_submission_higher_order.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -736,7 +797,35 @@ What happens if you reduce the amount of features to just Sex and Age?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Likewise, we reduce the input features to just \texttt{Sex} and \texttt{Age},
+and retrain the linear regression classifier using gradient descent.
+
+The final \( \theta \) (parameters) after reducing the features is:
+\begin{codingbox}
+theta = [0.455894, 0.006178]
+\end{codingbox}
+
+\hspace{4mm} With these new parameters, we evaluate the model on both the training and test sets.
+The MSE on the training set is approximately \( \boxed{0.179285} \),
+indicating a decrease in accuracy compared to the previous models.
+
+\hspace{4mm} On the test set, the accuracy obtained from the submission is \( \boxed{0.76315} \),
+which is slightly lower than the previous models.
+
+\hspace{4mm} Thus, reducing the input features to just \texttt{Sex} and \texttt{Age} led to a decrease in accuracy on both the training and test sets.
+
+\newpage
+
+\hspace{4mm} The results can be summarized as follows:
+\begin{itemize}
+    \item Training Set MSE: \( \boxed{0.179285} \)
+    \item Test Set Accuracy: \( \boxed{0.76315} \)
+\end{itemize}
+
+The submission screenshot is as follows:
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/kaggle_submission_reduced_features.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
