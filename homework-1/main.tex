@@ -842,7 +842,16 @@ Use the gradient descent method.
 \end{OTproblem}
 
 \begin{solution}
-The solution for the \textbf{OT} problem goes here.
+This have already been done in Problem T10.
+The final \( \theta \) (parameters) is:
+\begin{codingbox}
+theta = [0.023536, 0.663266, 0.000802, 0.188622]
+\end{codingbox}
+
+With these parameters, we can predict the survival of passengers based on the input features.
+The MSE on the training set is approximately \( \boxed{0.185767} \).
+
+The accuracy obtained from the submission is \( \boxed{0.76555} \)
 \end{solution}
 % ================================================================================ %
 
@@ -857,11 +866,34 @@ Report the Mean Squared Errors (MSE) of the difference between the two weights.
 \end{OTproblem}
 
 \begin{solution}
-The solution for the \textbf{OT} problem goes here.
+After implementing the linear regression classifier using matrix inversion,
+\[ \theta = \paren{ X^T X }^{-1} X^T y \]
+
+The final \( \theta \) (parameters) obtained from matrix inversion is:
+\begin{codingbox}
+theta = [-0.014114, 0.604206, 0.005015, 0.061163]
+\end{codingbox}
+
+\hspace{4mm} To compare the weights learned from the two methods, we calculate the Mean Squared Error (MSE) between the weights obtained from gradient descent and matrix
+inversion:
+\begin{codingbox}
+mse_difference = np.mean((theta_gradient_descent - theta_matrix_inversion) ** 2)
+\end{codingbox}
+
+The MSE of the difference between the two weights is approximately \( \boxed{0.005292} \).
+Which indicated that, even the weights learned from the two methods are not identical,
+they are quite similar, as indicated by the low MSE value.
+
+\hspace{4mm} The accuracy obtained from the submission using matrix inversion is \( \boxed{0.76555} \),
+which is exactly the same as the previous model using gradient descent.
+
+\vspace{3mm}
+
+\hspace{4mm} Thus, we can conclude that both methods yield similar results in terms of accuracy on the test set,
+and the weights learned from both methods are quite similar as indicated by the low MSE value.
 \end{solution}
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 \section{Fun with matrix algebra [OPTIONAL]}
@@ -898,6 +930,7 @@ Therefore, we have shown that:
 \end{proofbox}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT06                                   %
@@ -926,7 +959,6 @@ This shows that:
 \end{proofbox}
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 %                                   Problem OT07                                   %
@@ -950,6 +982,9 @@ To find the gradient \( \nabla_A f(A) \), we need to compute the partial derivat
 
 The only terms in the triple sum that depend on \( A_{p,q} \) are those where \( i = p \) and \( j = q \) or \( l = p \) and \( k = q \).
 Thus, we have:
+
+\newpage
+
 \begin{align*}
     \frac{\partial f}{\partial A_{p,q}} &= \frac{\partial}{\partial A_{p,q}} \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A_{l,k} C_{l,i} \\
     &= \frac{\partial}{\partial A_{p,q}} \sqbracket{ \sum_{k} \sum_{l} A_{p,q} B_{q,k} A_{l,k} C_{l,p} + \sum_{i} \sum_{j} A_{i,j} B_{j,q} A_{p,q} C_{p,i} } \\
