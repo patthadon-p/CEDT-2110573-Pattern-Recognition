@@ -30,6 +30,7 @@
 \usepackage{mdframed}
 \usepackage{booktabs}
 \usepackage{arydshln}
+\usepackage{pdfpages}
 \usepackage[most]{tcolorbox}
 
 \usepackage{pgfplots}
@@ -58,12 +59,23 @@
 
 \renewcommand{\footrulewidth}{0.4pt}
 
-\newcommand{\subject}[1][2110205 - Statistics for Computer Engineering]{
+\newcommand{\currentsubject}{}
+
+\newcommand{\subject}[1][2110573 - Pattern Recognition]{
+  \renewcommand{\currentsubject}{#1}
   \fancyhead[L]{\textbf{#1}}
+}
+
+\newcommand{\currentfooter}{}
+
+\newcommand{\setfooter}[1]{%
+  \renewcommand{\currentfooter}{#1}%
+  \fancyfoot[C]{\textbf{#1}}%
 }
 
 % =========================== Set paragraph spacing ===========================
 \setlength{\parskip}{4pt}       % Space between paragraphs  
+
 
 % =========================== Title command ===========================
 \newcommand{\hwtitle}[5]{
@@ -83,9 +95,9 @@
   \end{center}
 
   \ifx&#2&
-    \fancyfoot[C]{\textbf{Homework #1}}
+    \setfooter{Homework #1}
   \else
-    \fancyfoot[C]{\textbf{#2}}
+    \setfooter{#2}
   \fi
 
   \vspace{12pt}
@@ -336,3 +348,46 @@
   listing only,
   listing options={style=mycodingstyle,#1}
 }
+
+% =========================== Appendix inclusion ===========================
+
+% Appendix title page style
+\fancypagestyle{appendixtitle}{
+  \fancyhf{}
+  \fancyhead[L]{\textbf{\currentsubject}}
+  \fancyhead[R]{\thepage}
+  \fancyfoot[C]{\textbf{\currentfooter}}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% Appendix counter
+\newcounter{myappendix}
+
+\newcommand{\myappendix}[2]{%
+    % #1 = path/to/file.pdf
+    % #2 = appendix title (PDF name / description)
+
+    \refstepcounter{myappendix}
+
+    % ---------- Title page ----------
+    \clearpage
+    \thispagestyle{appendixtitle}
+
+    \vspace*{\fill}
+    \begin{center}
+        {\Huge\bfseries APPENDIX~\arabic{myappendix}\par}
+        \vspace{1.5em}
+        {\huge #2\par}
+    \end{center}
+    \vspace*{\fill}
+
+    \clearpage
+
+    % ---------- PDF content ----------
+    \includepdf[
+        pages=-,
+        pagecommand={},
+    ]{#1}
+}
+
+% ==============================================
