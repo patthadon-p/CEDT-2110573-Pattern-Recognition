@@ -887,6 +887,10 @@ they are quite similar, as indicated by the low MSE value.
 \hspace{4mm} The accuracy obtained from the submission using matrix inversion is \( \boxed{0.76555} \),
 which is exactly the same as the previous model using gradient descent.
 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/kaggle_submission_matrix_inversion.png}
+\end{center}
+
 \vspace{3mm}
 
 \hspace{4mm} Thus, we can conclude that both methods yield similar results in terms of accuracy on the test set,
@@ -894,6 +898,7 @@ and the weights learned from both methods are quite similar as indicated by the 
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 \section{Fun with matrix algebra [OPTIONAL]}
@@ -930,7 +935,6 @@ Therefore, we have shown that:
 \end{proofbox}
 % ================================================================================ %
 
-\newpage
 
 % ================================================================================ %
 %                                   Problem OT06                                   %
@@ -959,6 +963,7 @@ This shows that:
 \end{proofbox}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT07                                   %
@@ -982,9 +987,6 @@ To find the gradient \( \nabla_A f(A) \), we need to compute the partial derivat
 
 The only terms in the triple sum that depend on \( A_{p,q} \) are those where \( i = p \) and \( j = q \) or \( l = p \) and \( k = q \).
 Thus, we have:
-
-\newpage
-
 \begin{align*}
     \frac{\partial f}{\partial A_{p,q}} &= \frac{\partial}{\partial A_{p,q}} \sum_{i} \sum_{j} \sum_{k} \sum_{l} A_{i,j} B_{j,k} A_{l,k} C_{l,i} \\
     &= \frac{\partial}{\partial A_{p,q}} \sqbracket{ \sum_{k} \sum_{l} A_{p,q} B_{q,k} A_{l,k} C_{l,p} + \sum_{i} \sum_{j} A_{i,j} B_{j,q} A_{p,q} C_{p,i} } \\
