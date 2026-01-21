@@ -17,6 +17,7 @@
 
 
 % Use Package
+\usepackage{soul}
 \usepackage{sectsty}
 \usepackage{etoolbox}
 \usepackage{listings}
@@ -34,7 +35,7 @@
 \usepackage[most]{tcolorbox}
 \usepackage{float}
 \usepackage{caption}
-\captionsetup{font=bf}
+\captionsetup{labelfont=bf}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -80,6 +81,12 @@
 % =========================== Set paragraph spacing ===========================
 \setlength{\parskip}{4pt}       % Space between paragraphs  
 
+% =========================== Set Vertical and Horizontal Spacing ===========================
+\NewDocumentCommand{\myspace}{ O{v} O{4} O{mm} }{%
+  \ifstrequal{#1}{h}
+    {\hspace{#2#3}}
+    {\vspace{#2#3}}%
+}
 
 % =========================== Title command ===========================
 \newcommand{\hwtitle}[5]{
