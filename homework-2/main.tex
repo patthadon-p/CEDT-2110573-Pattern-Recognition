@@ -1,0 +1,650 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{../CEDT-Homework-style}
+
+\setlength{\headheight}{14.49998pt}
+
+\begin{document}
+\subject[2110573 - Pattern Recognition]
+\hwtitle{2}{}{Week 2 - MLE and Naive Bayes}{Patthadon Phengpinij}{ChatGPT}
+
+
+% ================================================================================ %
+\section{MLE}
+% ================================================================================ %
+
+Consider the following very simple model for stock pricing.
+The price at the end of each day is the price of the previous day multiplied by a fixed,
+but unknown, rate of return, \( \alpha \), with some noise, \( w \).
+For a two-day period, we can observe the following sequence
+\[ y_2 = \alpha y_1 + w_1 \]
+\[ y_1 = \alpha y_0 + w_0 \]
+
+where the noises \( w_0 \), \( w_1 \) are iid with the distribution \( \mathcal{N}(0, \sigma^2) \),
+\( y_0 \sim \mathcal{N}(0, \lambda) \) is independent of the noise sequence.
+\( \sigma^2 \) and \( \lambda \) are known, while \( \alpha \) is unknown.
+
+
+% ================================================================================ %
+%                                    Problem T01                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Find the MLE of the rate of return \( \alpha \) given the observed price at the end of each day, \( y_2, y_1, y_0 \).
+In other words, compute for the value of \( \alpha \) that maximizes \( p(y_2, y_1, y_0 \mid \alpha) \).
+
+\paragraph{\textit{Hint:}}
+This is a Markov process, e.g. \( y_2 \) is independent of \( y_0 \) given \( y_1 \).
+In general, a process is Markov if \( p(y_n \mid y_{n-1}, y_{n-2}, \ldots) = p(y_n \mid y_{n-1}) \).
+In other words, the present is independent of the past \( (y_{n-2}, y_{n-3}, \ldots) \), conditioned on the immediate past \( y_{n-1} \).
+You may also find the steps of the proof for logistic regression we did in class useful.
+
+\end{Tproblem}
+
+\begin{solution}
+First, we can express the joint probability \( p(y_2, y_1, y_0 \mid \alpha) \) using the Markov property:
+\[ p(y_2, y_1, y_0 \mid \alpha) = p(y_2 \mid y_1, \alpha) \times p(y_1 \mid y_0, \alpha) \times p(y_0) \]
+
+Next, we can write down the conditional probabilities based on the model:
+\begin{enumerate}
+    \item The conditional probability \( p(y_2 \mid y_1, \alpha) \) is given by the Gaussian distribution:
+    \[ p(y_2 \mid y_1, \alpha) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(y_2 - \alpha y_1)^2}{2\sigma^2} } \]
+    \item Likewise, the conditional probability \( p(y_1 \mid y_0, \alpha) \) is:
+    \[ p(y_1 \mid y_0, \alpha) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(y_1 - \alpha y_0)^2}{2\sigma^2} } \]
+    \item The prior probability \( p(y_0) \) is:
+    \[ p(y_0) = \frac{1}{\sqrt{2\pi\lambda}} \exp\paren{ -\frac{y_0^2}{2\lambda} } \]
+\end{enumerate}
+
+Thus, the joint probability becomes:
+\begin{align*}
+    p(y_2, y_1, y_0 \mid \alpha) &= p(y_2 \mid y_1, \alpha) \times p(y_1 \mid y_0, \alpha) \times p(y_0) \\
+    &= \frac{1}{(2\pi\sigma^2) \sqrt{2\pi\lambda}} \exp\paren{ -\frac{(y_2 - \alpha y_1)^2 + (y_1 - \alpha y_0)^2}{2\sigma^2} - \frac{y_0^2}{2\lambda} }
+\end{align*}
+
+We want to find the value of \( \alpha \) that maximizes this joint probability.
+To do this, we can take the logarithm of the joint probability (log-likelihood):
+\begin{align*}
+    \log \paren {p(y_2, y_1, y_0 \mid \alpha) } &= -\frac{1}{2} \log(2\pi\sigma^2) - \frac{1}{2} \log(2\pi\lambda) - \frac{(y_2 - \alpha y_1)^2 + (y_1 - \alpha y_0)^2}{2\sigma^2} - \frac{y_0^2}{2\lambda}
+\end{align*}
+
+To find the MLE, we take the derivative of the log-likelihood with respect to \( \alpha \) and set it to zero:
+\begin{align*}
+    \frac{d}{d\alpha} \sqbracket{ \log \paren {p(y_2, y_1, y_0 \mid \alpha) } } &= - 0 - 0 - \frac{1}{2\sigma^2} \sqbracket{ -2\alpha (y_2 - \alpha y_1) - 2\alpha (y_1 - \alpha y_0) } - 0 \\
+    0 &= \frac{1}{\sigma^2} \sqbracket{ (y_2 - \alpha y_1) y_1 + (y_1 - \alpha y_0) y_0 } \\
+    0 &= y_2 y_1 - \alpha y_1^2 + y_1 y_0 - \alpha y_0^2 \\
+    \alpha (y_1^2 + y_0^2) &= y_2 y_1 + y_1 y_0 \\
+    \alpha &= \frac{y_2 y_1 + y_1 y_0}{y_1^2 + y_0^2}
+\end{align*}
+
+Therefore, the MLE for \( \alpha \) is:
+\[ \boxed{ \hat{\alpha} = \frac{y_2 y_1 + y_1 y_0}{y_1^2 + y_0^2} } \]
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT01                                   %
+% ================================================================================ %
+\begin{OTproblem}
+Consider the general case, where
+\[ y_{n+1} = \alpha y_n + w_n, \; n = 0, 1, 2, \ldots \]
+Find the MLE given the observed prices \( y_{N+1}, y_N, \ldots, y_0 \).
+\end{OTproblem}
+
+\begin{solution}
+Just like in the two-day case, we can express the joint probability using the Markov property:
+\[ p(y_{N+1}, y_N, \ldots, y_0 \mid \alpha) = p(y_{N+1} \mid y_N, \alpha) \times p(y_N \mid y_{N-1}, \alpha) \times \ldots \times p(y_1 \mid y_0, \alpha) \times p(y_0) \]
+
+Next, we can write down the conditional probabilities based on the model:
+\begin{enumerate}
+    \item The conditional probability \( p(y_{n+1} \mid y_n, \alpha) \) is given by the Gaussian distribution:
+    \[ p(y_{n+1} \mid y_n, \alpha) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(y_{n+1} - \alpha y_n)^2}{2\sigma^2} } \]
+    \item The prior probability \( p(y_0) \) is:
+    \[ p(y_0) = \frac{1}{\sqrt{2\pi\lambda}} \exp\paren{ -\frac{y_0^2}{2\lambda} } \]
+\end{enumerate}
+
+Thus, the joint probability becomes:
+\begin{align*}
+    p(y_{N+1}, y_N, \ldots, y_0 \mid \alpha) &= \prod_{n=0}^{N} p(y_{n+1} \mid y_n, \alpha) \times p(y_0) \\
+    &= \frac{1}{(2\pi\sigma^2)^{(N+1)/2} \sqrt{2\pi\lambda}} \exp\paren{ -\sum_{n=0}^{N} \frac{(y_{n+1} - \alpha y_n)^2}{2\sigma^2} - \frac{y_0^2}{2\lambda} }
+\end{align*}
+
+We want to find the value of \( \alpha \) that maximizes this joint probability.
+To do this, we can take the logarithm of the joint probability (log-likelihood):
+\begin{align*}
+    \log \paren {p(y_{N+1}, y_N, \ldots, y_0 \mid \alpha) } &= -\frac{N+1}{2} \log(2\pi\sigma^2) - \frac{1}{2} \log(2\pi\lambda) - \sum_{n=0}^{N} \frac{(y_{n+1} - \alpha y_n)^2}{2\sigma^2} - \frac{y_0^2}{2\lambda}
+\end{align*}
+
+To find the MLE, we take the derivative of the log-likelihood with respect to \( \alpha \) and set it to zero:
+\begin{align*}
+    \frac{d}{d\alpha} \sqbracket{ \log \paren {p(y_{N+1}, y_N, \ldots, y_0 \mid \alpha) } } &= - \sum_{n=0}^{N} \frac{1}{2\sigma^2} \sqbracket{ -2(y_{n+1} - \alpha y_n) y_n } \\
+    0 &= \sum_{n=0}^{N} \frac{1}{\sigma^2} (y_{n+1} - \alpha y_n) y_n \\
+    0 &= \sum_{n=0}^{N} y_{n+1} y_n - \alpha \sum_{n=0}^{N} y_n^2 \\
+    \alpha \sum_{n=0}^{N} y_n^2 &= \sum_{n=0}^{N} y_{n+1} y_n \\
+    \alpha &= \frac{\sum_{n=0}^{N} y_{n+1} y_n}{\sum_{n=0}^{N} y_n^2}
+\end{align*}
+
+Therefore, the MLE for \( \alpha \) in the general case is:
+\[ \boxed{ \hat{\alpha} = \frac{\sum_{n=0}^{N} y_{n+1} y_n}{\sum_{n=0}^{N} y_n^2} } \]
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{Simple Bayes Classifier}
+% ================================================================================ %
+
+
+A student in Pattern Recognition course had finally built the ultimate classifier for cat emotions.
+He used one input features: the amount of food the cat ate that day, \( x \) (Being a good student he already normalized \( x \) to standard Normal).
+He proposed the following likelihood probabilities for class 1 (happy cat) and 2 (sad cat)
+\[ P(x \mid w_1) = \mathcal{N}(4, 2) \]
+\[ P(x \mid w_2) = \mathcal{N}(0, 2) \]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/cat_emotion_classifier.png}
+    \caption{The sad cat and the happy cat used in training.}
+\end{figure}
+
+\newpage
+
+% ================================================================================ %
+%                                    Problem T02                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Plot the posteriors values of the two classes on the same axis.
+Using the likelihood ratio test, what is the decision boundary for this classifier?
+Assume equal prior probabilities.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T03                                   %
+% ================================================================================ %
+\begin{Tproblem}
+What happen to the decision boundary if the cat is happy with a prior of 0.75?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT02                                   %
+% ================================================================================ %
+\begin{OTproblem}
+For the ordinary case of \( P( x \mid w_1 ) = \mathcal{N}(\mu_1, \sigma^2) \),
+\( P( x \mid w_2 ) = \mathcal{N}(\mu_2, \sigma^2) \), \( p(w_1) = p(w_2) = 0.5 \),
+prove that the decision boundary is at \( x = \frac{\mu_1 + \mu_2}{2} \).
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                   Problem OT03                                   %
+% ================================================================================ %
+\begin{OTproblem}
+If the student changed his model to
+\[ P( x \mid w_1 ) = \mathcal{N}(4, 2) \]
+\[ P( x \mid w_2 ) = \mathcal{N}(0, 4) \]
+Plot the posteriors values of the two classes on the same axis.
+What is the decision boundary for this classifier?
+Assume equal prior probabilities.
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+\section{Employee Attrition Prediction}
+% ================================================================================ %
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/cat_attrition_prediction.png}
+    \caption{Pictures of \st{employees} cats not used in this dataset.}
+\end{figure}    
+
+In this part of the homework, we will work on employee attrition prediction using data from Kaggle IBM HR Analytics Employee Attrition \& Performance.
+
+\myspace
+
+\par\noindent\textbf{The data}
+\par For each employee, 34 features are provided.
+We will use these features to predict each employee attrition e.g whether the employee will leave the company
+(\texttt{yes} for leaving, \texttt{no} for staying)
+
+\myspace
+
+\par\noindent Notable features are:
+\begin{itemize}
+    \item \textbf{Education:} 1 `Below College', 2 `College', 3 `Bachelor', 4 `Master', 5 `Doctor'.
+    \item \textbf{Environment Satisfaction:} 1 `Low', 2 `Medium', 3 `High', 4 `Very High'.
+    \item \textbf{Job Involvement:} 1 `Low', 2 `Medium', 3 `High', 4 `Very High'.
+    \item \textbf{Job Satisfaction:} 1 `Low', 2 `Medium', 3 `High', 4 `Very High'.
+    \item \textbf{Performance Rating:} 1 `Low', 2 `Good', 3 `Excellent', 4 `Outstanding'.
+    \item \textbf{Relationship Satisfaction:} 1 `Low', 2 `Medium', 3 `High', 4 `Very High'.
+    \item \textbf{WorkLifeBalance:} 1 `Bad', 2 `Good', 3 `Better', 4 `Best'.
+\end{itemize}
+
+\newpage
+
+\par\noindent\textbf{The database}
+\par First let's look at the given data file \texttt{hr-employee-attrition-with-null.csv}.
+Load the data using pandas. Use \texttt{describe()} and \texttt{head()} to get a sense of what the data is like.
+Our target of prediction is Attrition.
+Other columns are our input features.
+
+\myspace
+
+\par\noindent\textbf{Data cleaning}
+\par There are many missing values in this database.
+They are represented with \texttt{NaN}.
+In the previous homework, we filled the missing values with the mean, median, or mode values.
+That is because classifiers such as logistic regression cannot deal with missing feature values.
+However, for the case of Naive Bayes which we will use in this homework compares
+\( \prod_{i} p( x_i \mid class ) \) and treat each \( x_i \) as independent features.
+Thus, if a feature \( i \) is missing, we can drop that term from the comparison without having to guess what the missing feature is.
+First, convert the yes and no in this data table to 1 and 0.
+Then, we have to convert each categorical feature to number.
+
+\begin{codingbox}
+all.loc[all["Attrition"] == "no", "Attrition"] = 0.0
+all.loc[all["Attrition"] == "yes", "Attrition"] = 1.0
+for col in cat_cols:
+    all[col] = pd.Categorical(all[col]).codes
+\end{codingbox}
+
+We will also drop the employee numbers.
+
+\begin{codingbox}
+all = all.drop(columns = "EmployeeNumber")
+\end{codingbox}
+
+There is no standard rule on how much data you should segment into as training and test set.
+But for now let's use 90\% training 10\% testing.
+Select 10\% from the ``Attrition == yes'' and 10\% from the ``Attrition == no'' as your testing set, \texttt{test\_set}.
+Then, use the rest of the data as your training set, \texttt{train\_set}.
+
+\myspace
+
+\par\noindent\textbf{Histogram discretization}
+\par In class, we learned that in order to create a Bayes Classifier we first need to estimate the posterior or likelihood probability distributions.
+The simplest way to estimate probability distributions is via histograms.
+To do histogram estimation, we divide the entire data space into a finite number of bins.
+Then, we count how many data points are there in each bin and normalize using the total number of data points
+(so that the probability sums to 1).
+Since we are grouping a continuous valued feature into a finite number of bins, we can also call this process, discretization.
+
+\myspace
+
+The following code create a histogram of a column \texttt{col} from \texttt{train\_set}.
+\begin{codingbox}
+train_col_no_nan = train_set[~np.isnan(train_set[col])]
+# remove NaN values
+
+# bin the data into 40 equally spaced bins
+# hist is the count for each bin
+# bin_edge is the edge values of the bins
+hist, bin_edge = np.histogram(train_col_no_nan, 40)
+
+# make sure to import matplotlib.pyplot as plt
+# plot the histogram
+plt.fill_between(bin_edge.repeat(2)[1:-1],hist.repeat(2),facecolor='steelblue')
+plt.show()
+\end{codingbox}
+
+
+% ================================================================================ %
+%                                    Problem T04                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Observe the histogram for \texttt{Age}, \texttt{MonthlyIncome} and \texttt{DistanceFromHome}.
+How many bins have zero counts? Do you think this is a good discretization? Why?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T05                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Can we use a Gaussian to estimate this histogram? Why? What about a Gaussian Mixture Model (GMM)?
+
+\myspace
+
+\par
+The above discretization equally segments the space into equally spaced bins.
+This is the best method to segment if you know nothing about the data.
+Still, doing so may leave us with many bins with zero counts when we have too little data.
+To prevent this issue, we might assume that the distribution of our dat is Normal then draw the probabilities of each data point from this distribution instead.
+We will do this later.
+For now, do
+
+\begin{enumerate}
+    \item  First set the number of bins to 10 for \texttt{Age}, \texttt{MonthlyIncome} and \texttt{DistanceFromHome}.
+    \textbf{Make numbers of bin a parameter as we will change this later.}
+    \item Bin each values in the training set into bins using the function \texttt{np.digitize},
+    then count the number in each bins using \texttt{np.bincount}.
+    Be careful with the maximum and minimum values, your first bin should cover \texttt{-inf},
+    and your final bin should cover \texttt{inf},
+    so that you can handle test data that might be outside of the minimum and maximum values.
+\end{enumerate}
+
+\par
+You do not need to submit anything for this task. 
+You might want to make this a function so that you can change the number of bins.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T06                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Now plot the histogram according to the method described above (with 10, 40, and 100 bins)
+and show 3 plots each for \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome}.
+Which bin size is most sensible for each features? Why?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T07                                   %
+% ================================================================================ %
+\begin{Tproblem}
+For the rest of the features, which one should be discretized in order to be modeled by histograms?
+What are the criteria for choosing whether we should discretize a feature or not?
+Answer this and discretize those features into 10 bins each.
+In other words, figure out the \texttt{bin\_edge} for each feature, then use \texttt{digitize()} to convert the features to discrete values.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{The MLE for the likelihood distribution of discretized histograms}
+\par We would like to build a Naive Bayes classifier which compares the posterior
+\( p( leave \mid x_i ) \) against \( p( stay \mid x_i ) \).
+However, figuring out \( p( class \mid x_i ) \) is often hard (not true for this case).
+Thus, we turn to the likelihood \( p( x_i \mid class ) \), which can be derived from the discretized histograms.
+
+% ================================================================================ %
+%                                    Problem T08                                   %
+% ================================================================================ %
+\begin{Tproblem}
+What kind of distribution should we use to model histograms?
+(Answer a distribution name) What is the MLE for this likelihood distribution? (Describe how to do the MLE).
+Plot the likelihood distributions of \texttt{MonthlyIncome}, \texttt{JobRole}, \texttt{HourlyRate}, and \texttt{MaritalStatus} for different Attrition values.
+
+\paragraph{\textit{Hint:}}
+In class we talk about how a fair coin can be modeled using the Bernoulli distribution.
+A histogram is very similar to a dice in the sense that the outcome is a set of possibilities.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T09                                   %
+% ================================================================================ %
+\begin{Tproblem}
+What is the prior distribution of the two classes?
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Naive Bayes classification}
+\par We are now ready to build our Naive Bayes classifier.
+Which makes a decision according to
+\[ H(x) = \frac{p(leave)}{p(stay)} \prod_{i=1} \frac{p( x_i \mid leave )}{p( x_i \mid stay )} \]
+
+If \( H(x) \) is larger than 1, then classify it as \texttt{leave}.
+If \( H(x) \) is smaller than 1, then classify it as \texttt{stay}.
+
+Note we often work in the log scale to prevent floating point underflow. In other words,
+\[ lH(x) = \log \paren{ p(leave) } - \log \paren{ p(stay) } + \sum_{i=1} \sqbracket{ \log \paren{ p( x_i \mid leave ) } - \log \paren{ p( x_i \mid stay ) } } \]
+
+If \( lH(x) \) is larger than 0, then classify it as leave. If \( lH(x) \) is smaller than 0, then classify it as stay.
+
+
+% ================================================================================ %
+%                                    Problem T10                                   %
+% ================================================================================ %
+\begin{Tproblem}
+If we use the current Naive Bayes with our current Maximum Likelihood Estimates,
+we will find that some \( P( x_i | attrition ) \) will be zero and will result in the entire product term to be zero.
+Propose a method to fix this problem.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T11                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Implement your Naive Bayes classifier.
+Use the learned distributions to classify the \texttt{test\_set}.
+Don't forget to allow your classifier to handle missing values in the test set.
+Report the overall Accuracy.
+Then, report the Precision, Recall, and F score for detecting attrition.
+See Lecture 1 for the definitions of each metric.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Probability density function}
+\par Now, instead of using histogram discretization, we will assume that our features are normally distributed.
+In other words, for certain feature types, \( P(x_i | attrition) \) is now Normally distributed.
+By doing so, we can estimate the mean and standard deviation for each feature and compute the probability of each test feature by using the Gaussian probability density function instead.
+You can do this by calling:
+
+\begin{codingbox}
+scipy.stats.norm(mean, std).pdf(feature_value)
+\end{codingbox}
+
+% ================================================================================ %
+%                                    Problem T12                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Use the learned distributions to classify the \texttt{test\_set}.
+Report the results using the same metric as the previous question.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Baseline comparison}
+\par In machine learning, we need to be able to evaluate how good our model is.
+We usually compare our model with a different model and show that our model is better.
+Sometimes we do not have a candidate model to evaluate our method against.
+In this homework, we will look at two simple baselines, the random choice, and the majority rule.
+
+% ================================================================================ %
+%                                    Problem T13                                   %
+% ================================================================================ %
+\begin{Tproblem}
+The random choice baseline is the accuracy if you make a random guess for each test sample.
+Give random guess (50\% leaving, and 50\% staying) to the test samples.
+Report the overall Accuracy. Then, report the Precision, Recall,
+and F score for attrition prediction using the random choice baseline.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T14                                   %
+% ================================================================================ %
+\begin{Tproblem}
+The majority rule is the accuracy if you use the most frequent class from the training set as the classification decision.
+Report the overall Accuracy.
+Then, report the Precision, Recall, and F score for attrition prediction using the majority rule baseline.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T15                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Compare the two baselines with your Naive Bayes classifier.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Threshold finding}
+\par In practice, instead of comparing \( lH(x) \) against 0, we usually compare against a threshold, \( t \).
+We can change the threshold so that we maximize the accuracy, precision, recall, or F score
+(depending on which measure we want to optimize).
+
+% ================================================================================ %
+%                                    Problem T16                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Use the following threshold values
+\begin{codingbox}
+    t = np.arange(-5,5,0.05)
+\end{codingbox}
+find the best accuracy, and F score (and the corresponding thresholds)
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Receiver Operating Characteristic (RoC) curve}
+\par The recall rate (true positive rate) and the false alarm rate can change as we vary the threshold.
+The false alarm rate will deteriorate as we decrease the threshold (more false alarms).
+On the other hand, the recall rate will improve.
+This is also another trade-off machine learning practitioners need to consider.
+If we plot the false alarm vs recall as we vary the threshold (false alarm as the x-axis and recall as the y-axis),
+we get a plot called the ``Receiver operating characteristic (RoC) curve.''
+The RoC curve illustrates the performance of a binary classifier
+(Will this person leave? Will this person survive the Titanic? yes or no) as the threshold is varied.
+An example RoC curve is shown below
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/RoC_Curve.png}
+    \caption{An example RoC curve. Source \href{https://en.wikipedia.org/wiki/Receiver_operating_characteristic}{wikipedia}}
+\end{figure}
+
+% ================================================================================ %
+%                                    Problem T17                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Plot the RoC of your classifier.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T18                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Change the number of discretization bins to 5.
+What happens to the RoC curve?
+Which discretization is better?
+The number of discretization bins can be considered as a hyperparameter, and must be chosen by comparing the final performance.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+
+% ================================================================================ %
+%                                    Problem T19                                   %
+% ================================================================================ %
+\begin{Tproblem}
+Submit your code (.py or .ipynb) on mycourseville.
+If you've made it this far, \textbf{congratulations!} you've just created simple models that can help HR deal with one of their biggest problems.
+Simple, isn't it?
+This is a real world task with real implications, and I personally have been approached by big companies to help with this.
+\end{Tproblem}
+
+\begin{solution}
+The solution goes here.
+\end{solution}
+% ================================================================================ %
+
+\par\noindent\textbf{Classifier Variance}
+\par Recall, in class, we talked about the variance of a classifier as the training set changes.
+In this section, we will evaluate our model if we shuffle the training and test data.
+This will give a measure whether our recognizer is good just because we are lucky
+(and give statistical significance to our experiments).
+
+% ================================================================================ %
+%                                   Problem OT04                                   %
+% ================================================================================ %
+\begin{OTproblem}
+Shuffle the database, and create new test and train sets.
+Redo the entire training and evaluation process 10 times (each time with a new training and test set).
+Calculate the mean and variance of the accuracy rate.
+\end{OTproblem}
+
+\begin{solution}
+The solution for the \textbf{OT} problem goes here.
+\end{solution}
+% ================================================================================ %
+
+
+\end{document}
