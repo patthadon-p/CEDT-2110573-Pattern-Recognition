@@ -67,7 +67,7 @@ To do this, we can take the logarithm of the joint probability (log-likelihood):
 
 To find the MLE, we take the derivative of the log-likelihood with respect to \( \alpha \) and set it to zero:
 \begin{align*}
-    \frac{d}{d\alpha} \sqbracket{ \log \paren {p(y_2, y_1, y_0 \mid \alpha) } } &= - 0 - 0 - \frac{1}{2\sigma^2} \sqbracket{ -2\alpha (y_2 - \alpha y_1) - 2\alpha (y_1 - \alpha y_0) } - 0 \\
+    \frac{d}{d\alpha} \sqbracket{ \log \paren {p(y_2, y_1, y_0 \mid \alpha) } } &= - 0 - 0 - \frac{1}{2\sigma^2} \sqbracket{ -2y_1 (y_2 - \alpha y_1) - 2y_0 (y_1 - \alpha y_0) } - 0 \\
     0 &= \frac{1}{\sigma^2} \sqbracket{ (y_2 - \alpha y_1) y_1 + (y_1 - \alpha y_0) y_0 } \\
     0 &= y_2 y_1 - \alpha y_1^2 + y_1 y_0 - \alpha y_0^2 \\
     \alpha (y_1^2 + y_0^2) &= y_2 y_1 + y_1 y_0 \\
@@ -157,10 +157,45 @@ Assume equal prior probabilities.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+First, we can calculate the posterior probabilities for each class using Bayes' theorem:
+\begin{align*}
+    P(w_1 \mid x) &= \frac{P(x \mid w_1) P(w_1)}{P(x)} \\
+    P(w_2 \mid x) &= \frac{P(x \mid w_2) P(w_2)}{P(x)}
+\end{align*}
+
+Assume equal prior probabilities:
+\[ P(w_1) = P(w_2) \]
+
+The likelihood ratio test compares the posterior probabilities:
+\begin{align*}
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1) P(w_1)}{P(x \mid w_2) P(w_2)} \\
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1)}{P(x \mid w_2)}
+\end{align*}
+
+To find the decision boundary, we set the likelihood ratio equal to 1:
+\begin{align*}
+    \frac{P(x \mid w_1)}{P(x \mid w_2)} &= 1 \\
+    P(x \mid w_1) &= P(x \mid w_2)
+\end{align*}
+
+Substituting the Gaussian likelihoods:
+\begin{align*}
+    \frac{1}{\sqrt{2\pi \cdot 2}} \exp\paren{ -\frac{(x - 4)^2}{2 \cdot 2} } &= \frac{1}{\sqrt{2\pi \cdot 2}} \exp\paren{ -\frac{x^2}{2 \cdot 2} } \\
+    \exp\paren{ -\frac{(x - 4)^2}{4} } &= \exp\paren{ -\frac{x^2}{4} } \\
+    -\frac{(x - 4)^2}{4} &= -\frac{x^2}{4} \\
+    (x - 4)^2 &= x^2 \\
+    x &= 2
+\end{align*}
+
+Thus, the decision boundary for this classifier is at \( \boxed{x = 2} \).
+\par Using Python, we can plot the posterior probabilities for both classes:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/p2.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T03                                   %
@@ -170,10 +205,44 @@ What happen to the decision boundary if the cat is happy with a prior of 0.75?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+With the new prior probabilities:
+\[ P(w_1) = 0.75 \text{ and } P(w_2) = 0.25 \]
+
+The likelihood ratio test now becomes:
+\begin{align*}
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1) P(w_1)}{P(x \mid w_2) P(w_2)} \\
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1) \cdot (0.75)}{P(x \mid w_2) \cdot (0.25)} \\
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= 3 \paren{ \frac{P(x \mid w_1)}{P(x \mid w_2)} }
+\end{align*}
+
+To find the decision boundary, we set the likelihood ratio equal to 1:
+\begin{align*}
+    3 \paren{ \frac{P(x \mid w_1)}{P(x \mid w_2)} } &= 1 \\
+    P(x \mid w_1) &= \frac{1}{3} P(x \mid w_2)
+\end{align*}
+
+Substituting the Gaussian likelihoods:
+\begin{align*}
+    \frac{1}{\sqrt{2\pi \cdot 2}} \exp\paren{ -\frac{(x - 4)^2}{2 \cdot 2} } &= \frac{1}{3} \times \frac{1}{\sqrt{2\pi \cdot 2}} \exp\paren{ -\frac{x^2}{2 \cdot 2} } \\
+    \exp\paren{ -\frac{(x - 4)^2}{4} } &= \frac{1}{3} \times \exp\paren{ -\frac{x^2}{4} } \\
+    -\frac{(x - 4)^2}{4} &= \ln\paren{ \frac{1}{3} } -\frac{x^2}{4} \\
+    (x - 4)^2 &= x^2 + 4\ln(3) \\
+    x &= 2 - \frac{\ln(3)}{2} \\
+    x &\approx 1.45
+\end{align*}
+
+Thus, the decision boundary for this classifier is at \( \boxed{x \approx 1.45} \).
+\par Using Python, we can plot the posterior probabilities for both classes:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/p3.png}
+\end{center}
+
+This shows that the decision boundary has shifted to the left due to the increased prior probability of the happy cat class
+(as shown by the orange line in the figure above).
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT02                                   %
@@ -184,11 +253,50 @@ For the ordinary case of \( P( x \mid w_1 ) = \mathcal{N}(\mu_1, \sigma^2) \),
 prove that the decision boundary is at \( x = \frac{\mu_1 + \mu_2}{2} \).
 \end{OTproblem}
 
-\begin{solution}
-The solution for the \textbf{OT} problem goes here.
-\end{solution}
+\begin{proofbox}
+For the ordinary case, we have:
+\[ P( x \mid w_1 ) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(x - \mu_1)^2}{2\sigma^2} } \]
+\[ P( x \mid w_2 ) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(x - \mu_2)^2}{2\sigma^2} } \]
+
+Using Bayes' theorem, the posterior probabilities for each class are:
+\begin{align*}
+    P(w_1 \mid x) &= \frac{P(x \mid w_1) P(w_1)}{P(x)} \\
+    P(w_2 \mid x) &= \frac{P(x \mid w_2) P(w_2)}{P(x)}
+\end{align*}
+
+Because the equality of prior probabilities:
+\[ P(w_1) = P(w_2) = 0.5 \]
+
+The likelihood ratio test compares the posterior probabilities:
+\begin{align*}
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1) P(w_1)}{P(x \mid w_2) P(w_2)} \\
+    \frac{P(w_1 \mid x)}{P(w_2 \mid x)} &= \frac{P(x \mid w_1)}{P(x \mid w_2)}
+\end{align*}
+
+To find the decision boundary, we set the likelihood ratio equal to 1:
+\begin{align*}
+    \frac{P(x \mid w_1)}{P(x \mid w_2)} &= 1 \\
+    P(x \mid w_1) &= P(x \mid w_2)
+\end{align*}
+
+Substituting the Gaussian likelihoods:
+\begin{align*}
+    \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(x - \mu_1)^2}{2\sigma^2} } &= \frac{1}{\sqrt{2\pi\sigma^2}} \exp\paren{ -\frac{(x - \mu_2)^2}{2\sigma^2} } \\
+    \exp\paren{ -\frac{(x - \mu_1)^2}{2\sigma^2} } &= \exp\paren{ -\frac{(x - \mu_2)^2}{2\sigma^2} } \\
+    -\frac{(x - \mu_1)^2}{2\sigma^2} &= -\frac{(x - \mu_2)^2}{2\sigma^2} \\
+    (x - \mu_1)^2 &= (x - \mu_2)^2 \\
+    0 &= (x - \mu_2)^2 - (x - \mu_1)^2 \\
+    0 &= \paren{ (x - \mu_2) - (x - \mu_1) } \paren{ (x - \mu_2) + (x - \mu_1) } \\
+    0 &= \paren{ \mu_1 - \mu_2 } \paren{ 2x - (\mu_1 + \mu_2) } \\
+    0 &= \paren{ 2x - (\mu_1 + \mu_2) } \text{ ; because } \mu_1 \neq \mu_2 \\
+    x &= \frac{\mu_1 + \mu_2}{2}
+\end{align*}
+
+Thus, the decision boundary for this classifier is at \( \boxed{x = \frac{\mu_1 + \mu_2}{2}} \).
+\end{proofbox}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                   Problem OT03                                   %
@@ -203,7 +311,30 @@ Assume equal prior probabilities.
 \end{OTproblem}
 
 \begin{solution}
-The solution for the \textbf{OT} problem goes here.
+Like the previous problems, we can calculate the posterior probabilities for each class using Bayes' theorem,
+assume the equality of prior probabilities, we know that:
+\begin{align*}
+    \frac{P(x \mid w_1)}{P(x \mid w_2)} &= 1 \\
+    P(x \mid w_1) &= P(x \mid w_2)
+\end{align*}
+
+Substituting the Gaussian likelihoods:
+\begin{align*}
+    \frac{1}{\sqrt{2\pi \cdot 2}} \exp\paren{ -\frac{(x - 4)^2}{2 \cdot 2} } &= \frac{1}{\sqrt{2\pi \cdot 4}} \exp\paren{ -\frac{x^2}{2 \cdot 4} } \\
+    \exp\paren{ -\frac{(x - 4)^2}{4} } &= \frac{1}{\sqrt{2}} \times \exp\paren{ -\frac{x^2}{8} } \\
+    -\frac{(x - 4)^2}{4} &= -\frac{1}{2} \ln(2) -\frac{x^2}{8} \\
+    (x - 4)^2 &= \frac{x^2}{2} + 2\ln(2) \\
+    x^2 - 8x + 16 &= \frac{x^2}{2} + 2\ln(2) \\
+    \frac{x^2}{2} - 8x + (16 - 2\ln(2)) &= 0 \\
+    x &= \frac{8 \pm \sqrt{64 - 2(16 - 2\ln(2))}}{1} \\
+    x &\approx 2.10, 13.90
+\end{align*}
+
+Thus, the decision boundary for this classifier is at \( \boxed{x \approx 2.10, 13.90} \).
+\par Using Python, we can plot the posterior probabilities for both classes:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/po3.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -317,24 +448,76 @@ How many bins have zero counts? Do you think this is a good discretization? Why?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Using the provided code, we can plot the histograms for the features \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome}.
+After plotting the histograms, we can count the number of bins with zero counts.
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/p4.png}
+\end{center}
+
+The number of bins with zero counts for each feature is as follows:
+\begin{itemize}
+    \item \texttt{Age}: 0 (Attrition = 0) + 2 (Attrition = 1) bins with zero counts
+    \item \texttt{MonthlyIncome}: 0 (Attrition = 0) + 14 (Attrition = 1) bins with zero counts
+    \item \texttt{DistanceFromHome}: 11 (Attrition = 0) + 11 (Attrition = 1) bins with zero counts
+\end{itemize}
+
+\par Having bins with zero counts indicates that there are ranges of values for these features that are not represented in the training data.
+This can be problematic for a histogram-based model, as it may lead to poor generalization when making predictions on new data.
+If a new data point falls into a bin with zero counts, the model will not have any information to estimate the probability for that feature value.
+
+\myspace
+
+\par Therefore, this discretization may not be ideal, especially for features like \texttt{MonthlyIncome} and \texttt{DistanceFromHome},
+where a significant number of bins have zero counts.
+To improve the discretization, we could consider using a different number of bins or employing techniques such as Gaussian Mixture Models (GMMs) to better capture the underlying distribution of the data.
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T05                                   %
 % ================================================================================ %
 \begin{Tproblem}
 Can we use a Gaussian to estimate this histogram? Why? What about a Gaussian Mixture Model (GMM)?
+\end{Tproblem}
+
+\begin{solution}
+To determine whether we can use a Gaussian to estimate the histogram for the features \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome},
+we need to analyze the shape of the histograms.
 
 \myspace
 
-\par
-The above discretization equally segments the space into equally spaced bins.
+\par A Gaussian distribution is characterized by its bell-shaped curve, which is symmetric around the mean.
+If the histogram of a feature closely resembles this bell-shaped curve, then it may be appropriate to use a Gaussian to estimate the distribution of that feature.
+
+\myspace
+
+\par Upon examining the histograms:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{images/p4.png}
+\end{center}
+
+\begin{itemize}
+    \item \texttt{Age}: The histogram appears to be roughly bell-shaped,
+    suggesting that a Gaussian distribution could be a reasonable approximation.
+    \item \texttt{MonthlyIncome}: The histogram is skewed and does not resemble a bell-shaped curve,
+    indicating that a Gaussian may not be suitable for this feature.
+    \item \texttt{DistanceFromHome}: The histogram is also skewed and does not resemble a bell-shaped curve,
+    suggesting that a Gaussian may not be appropriate for this feature either.
+\end{itemize}
+
+\par A Gaussian Mixture Model (GMM) is a more flexible approach that can model complex distributions by combining multiple Gaussian components.
+If the histogram of a feature shows multiple peaks or is skewed, a GMM can better capture the underlying distribution.
+\end{solution}
+% ================================================================================ %
+
+\newpage
+
+\par The above discretization equally segments the space into equally spaced bins.
 This is the best method to segment if you know nothing about the data.
 Still, doing so may leave us with many bins with zero counts when we have too little data.
-To prevent this issue, we might assume that the distribution of our dat is Normal then draw the probabilities of each data point from this distribution instead.
+To prevent this issue, we might assume that the distribution of our data is Normal then draw the probabilities of each data point from this distribution instead.
 We will do this later.
 For now, do
 
@@ -348,16 +531,8 @@ For now, do
     so that you can handle test data that might be outside of the minimum and maximum values.
 \end{enumerate}
 
-\par
-You do not need to submit anything for this task. 
+\par You do not need to submit anything for this task. 
 You might want to make this a function so that you can change the number of bins.
-\end{Tproblem}
-
-\begin{solution}
-The solution goes here.
-\end{solution}
-% ================================================================================ %
-
 
 % ================================================================================ %
 %                                    Problem T06                                   %
@@ -369,10 +544,23 @@ Which bin size is most sensible for each features? Why?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Using the method described, we can plot the histograms for the features \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome} with different bin sizes (10, 40, and 100 bins).
+\begin{center}
+    \includegraphics[width=0.85\textwidth]{images/p6.png}
+\end{center}
+
+\par After analyzing the histograms with different bin sizes, we can determine the most sensible bin size for each feature:
+\begin{itemize}
+    \item \texttt{Age}: A bin size of 10 seems most sensible as it captures the overall distribution without being too granular.
+    \item \texttt{MonthlyIncome}: A bin size of 40 appears to be the most appropriate,
+    as it provides a good balance between detail and generalization, capturing the skewness of the distribution.
+    \item \texttt{DistanceFromHome}: A bin size of 40 also seems most sensible,
+    as it captures the distribution well without being too sparse.
+\end{itemize}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T07                                   %
@@ -646,5 +834,14 @@ The solution for the \textbf{OT} problem goes here.
 \end{solution}
 % ================================================================================ %
 
+
+% ================================================================================ %
+%                                     Appendix                                     %
+% ================================================================================ %
+
+\myappendix{code/Pattern_HW2_student_2026.pdf}{Pattern HW2 Starter Code}
+\myappendix{code/SimpleBayesClassifier.pdf}{SimpleBayesClassifier}
+
+% ================================================================================ %
 
 \end{document}
