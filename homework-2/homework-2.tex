@@ -190,7 +190,7 @@ Substituting the Gaussian likelihoods:
 Thus, the decision boundary for this classifier is at \( \boxed{x = 2} \).
 \par Using Python, we can plot the posterior probabilities for both classes:
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/p2.png}
+    \includegraphics[width=0.7\textwidth]{images/LRT-T2.png}
 \end{center}
 \end{solution}
 % ================================================================================ %
@@ -234,7 +234,7 @@ Substituting the Gaussian likelihoods:
 Thus, the decision boundary for this classifier is at \( \boxed{x \approx 1.45} \).
 \par Using Python, we can plot the posterior probabilities for both classes:
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/p3.png}
+    \includegraphics[width=0.7\textwidth]{images/LRT-T3.png}
 \end{center}
 
 This shows that the decision boundary has shifted to the left due to the increased prior probability of the happy cat class
@@ -333,7 +333,7 @@ Substituting the Gaussian likelihoods:
 Thus, the decision boundary for this classifier is at \( \boxed{x \approx 2.10, 13.90} \).
 \par Using Python, we can plot the posterior probabilities for both classes:
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/po3.png}
+    \includegraphics[width=0.7\textwidth]{images/LRT-OT3.png}
 \end{center}
 \end{solution}
 % ================================================================================ %
@@ -451,14 +451,14 @@ How many bins have zero counts? Do you think this is a good discretization? Why?
 Using the provided code, we can plot the histograms for the features \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome}.
 After plotting the histograms, we can count the number of bins with zero counts.
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/p4.png}
+    \includegraphics[width=0.7\textwidth]{images/Histogram-T4.png}
 \end{center}
 
 The number of bins with zero counts for each feature is as follows:
 \begin{itemize}
-    \item \texttt{Age}: 0 (Attrition = 0) + 2 (Attrition = 1) bins with zero counts
-    \item \texttt{MonthlyIncome}: 0 (Attrition = 0) + 14 (Attrition = 1) bins with zero counts
-    \item \texttt{DistanceFromHome}: 11 (Attrition = 0) + 11 (Attrition = 1) bins with zero counts
+    \item \texttt{Age}: 0 (Attrition = 0) + 2 (Attrition = 1) = 2 bins
+    \item \texttt{MonthlyIncome}: 0 (Attrition = 0) + 14 (Attrition = 1) = 14 bins
+    \item \texttt{DistanceFromHome}: 11 (Attrition = 0) + 11 (Attrition = 1) = 22 bins
 \end{itemize}
 
 \par Having bins with zero counts indicates that there are ranges of values for these features that are not represented in the training data.
@@ -495,7 +495,7 @@ If the histogram of a feature closely resembles this bell-shaped curve, then it 
 
 \par Upon examining the histograms:
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/p4.png}
+    \includegraphics[width=0.7\textwidth]{images/Histogram-T4.png}
 \end{center}
 
 \begin{itemize}
@@ -546,16 +546,17 @@ Which bin size is most sensible for each features? Why?
 \begin{solution}
 Using the method described, we can plot the histograms for the features \texttt{Age}, \texttt{MonthlyIncome}, and \texttt{DistanceFromHome} with different bin sizes (10, 40, and 100 bins).
 \begin{center}
-    \includegraphics[width=0.85\textwidth]{images/p6.png}
+    \includegraphics[width=0.85\textwidth]{images/Histogram-T6.png}
 \end{center}
 
 \par After analyzing the histograms with different bin sizes, we can determine the most sensible bin size for each feature:
 \begin{itemize}
     \item \texttt{Age}: A bin size of 10 seems most sensible as it captures the overall distribution without being too granular.
-    \item \texttt{MonthlyIncome}: A bin size of 40 appears to be the most appropriate,
-    as it provides a good balance between detail and generalization, capturing the skewness of the distribution.
-    \item \texttt{DistanceFromHome}: A bin size of 40 also seems most sensible,
-    as it captures the distribution well without being too sparse.
+    \item \texttt{MonthlyIncome}: A bin size of 10 appears to be the most appropriate,
+    as it provides a good balance between detail and generalization, capturing the skewness of the distribution,
+    also it have least empty bins.
+    \item \texttt{DistanceFromHome}: A bin size of 10 also seems most sensible,
+    as it captures the distribution without being too granular, and it has fewer empty bins compared to larger bin sizes.
 \end{itemize}
 \end{solution}
 % ================================================================================ %
@@ -573,7 +574,47 @@ In other words, figure out the \texttt{bin\_edge} for each feature, then use \te
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+To determine which features should be discretized for modeling with histograms, we can consider the following criteria:
+\begin{itemize}
+    \item The feature is continuous and has a different distribution for different classes (Attrition = 0 vs 1).
+    \item Features that are already categorical or have a small number of unique values may not need to be discretized, as they can be directly modeled using histograms without further binning.
+\end{itemize}
+
+\par Based on these criteria, considering the following histograms and the nature of the features, we can decide which features to discretize:
+\begin{center}
+    \includegraphics[width=0.92\textwidth]{images/Histogram-T7-1.png}
+\end{center}
+\begin{center}
+    \includegraphics[width=0.92\textwidth]{images/Histogram-T7-2.png}
+\end{center}
+
+\par After analyzing the histograms and the nature of the features, we can choose to discretize the following features:
+\begin{center}
+    \texttt{Age},
+    \texttt{DistanceFromHome},
+    \texttt{JobLevel},
+    \texttt{JobRole},
+    \texttt{MonthlyRate},
+    \texttt{OverTime},
+    \texttt{PercentSalaryHike},
+    \texttt{StockOptionLevel},
+    \texttt{TotalWorkingYears},
+    \texttt{YearsAtCompany},
+    \texttt{YearsInCurrentRole},
+    \texttt{YearsWithCurrManager}
+\end{center}
+
+\par For each of these features,
+we can calculate the bin edges using the minimum and maximum values of the feature in the training set,
+and then use \texttt{np.digitize()} to convert the continuous values into discrete bin indices.
+
+\myspace
+
+\par The resulting histograms after discretization will look like this:
+
+\begin{center}
+    \includegraphics[width=0.95\textwidth]{images/Histogram-T7-3.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -590,14 +631,71 @@ Thus, we turn to the likelihood \( p( x_i \mid class ) \), which can be derived 
 What kind of distribution should we use to model histograms?
 (Answer a distribution name) What is the MLE for this likelihood distribution? (Describe how to do the MLE).
 Plot the likelihood distributions of \texttt{MonthlyIncome}, \texttt{JobRole}, \texttt{HourlyRate}, and \texttt{MaritalStatus} for different Attrition values.
-
 \paragraph{\textit{Hint:}}
 In class we talk about how a fair coin can be modeled using the Bernoulli distribution.
 A histogram is very similar to a dice in the sense that the outcome is a set of possibilities.
 \end{Tproblem}
 
+\begin{proofbox}
+We are going to show that the MLE for the likelihood distribution of a categorical distribution is given by the normalized counts of each category.
+Consider a categorical distribution with \( k \) categories, where the probability of each category \( i \) is denoted as \( p_i \).
+
+\myspace
+
+Given a dataset with \( n \) samples, where \( n_i \) samples belong to category \( i \), the likelihood function can be expressed as:
+\[ L(p_1, p_2, \ldots, p_k) = \prod_{i=1}^{k} p_i^{n_i} \]
+
+To find the MLE, we need to maximize this likelihood function with respect to the probabilities \( p_i \), subject to the constraint that the probabilities sum to 1:
+\[ \sum_{i=1}^{k} p_i = 1 \]
+
+We can use the method of \textbf{Lagrange multipliers} to incorporate this constraint into our optimization problem.
+The Lagrangian function can be defined as:
+\[ \mathcal{L}(p_1, p_2, \ldots, p_k, \lambda) = \prod_{i=1}^{k} p_i^{n_i} + \lambda \paren{ 1 - \sum_{i=1}^{k} p_i } \]
+
+Taking the logarithm of the likelihood function to simplify the optimization, we get:
+\[ \log L(p_1, p_2, \ldots, p_k) = \sum_{i=1}^{k} n_i \log p_i \]
+
+Now, we can take the partial derivatives of the Lagrangian with respect to \( p_i \) and \( \lambda \) and set them to zero:
+\begin{align*}
+    \frac{\partial \mathcal{L}}{\partial p_i} &= \frac{n_i}{p_i} - \lambda = 0 \quad \text{for }i = 1, 2, \ldots, k \\
+    \frac{\partial \mathcal{L}}{\partial \lambda} &= 1 - \sum_{i=1}^{k} p_i = 0
+\end{align*}
+
+From the first set of equations, we can express \( p_i \) in terms of \( \lambda \):
+\[ p_i = \frac{n_i}{\lambda} \]
+
+Substituting this into the second equation, we get:
+\begin{align*}
+    1 &= \sum_{i=1}^{k} p_i \\
+    1 &= \sum_{i=1}^{k} \frac{n_i}{\lambda} \\
+    1 &= \frac{1}{\lambda} \sum_{i=1}^{k} n_i \\
+    1 &= \frac{n}{\lambda} \\
+    \lambda &= n
+\end{align*}
+
+Substituting back into the expression for \( p_i \), we get the MLE for the probabilities:
+\[ p_i = \frac{n_i}{n} \]
+
+Thus, the MLE for the likelihood distribution of a \textbf{categorical distribution} is given by the normalized counts of each category,
+which can be interpreted as the empirical probability of each category in the dataset.
+\end{proofbox}
+
 \begin{solution}
-The solution goes here.
+The distribution that we can use to model histograms is the \textbf{categorical distribution}.
+Since we have discretized the features into a finite number of bins, we can treat each bin as a category.
+
+\myspace
+
+\par The MLE for the likelihood distribution of a categorical distribution can be calculated by \( p_i = \frac{n_i}{n} \),
+where \( n_i \) is the count of samples in category \( i \) (or bin \( i \)) and \( n \) is the total number of samples.
+
+\myspace
+
+\par The plot of the likelihood distributions of \texttt{MonthlyIncome}, \texttt{JobRole}, \texttt{HourlyRate}, and \texttt{MaritalStatus}
+are shown below for different Attrition values:
+\begin{center}
+    \includegraphics[width=0.80\textwidth]{images/Likelihood-T8.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -610,9 +708,37 @@ What is the prior distribution of the two classes?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The prior distribution of the two classes can be calculated by
+counting the number of samples in each class (Attrition = 0 and Attrition = 1) in the training set
+and normalizing by the total number of samples.
+
+\myspace
+
+\par Let \( n_0 \) be the number of samples with Attrition = 0 (staying)
+and \( n_1 \) be the number of samples with Attrition = 1 (leaving).
+The total number of samples is \( n = n_0 + n_1 \).
+
+\myspace
+
+After counting the samples in the training set, we find that:
+\begin{center}
+    \begin{tabular}{c|c}
+        Attrition = 0 (staying) & Attrition = 1 (leaving) \\
+        \hline
+        \( n_0 = 978 \) & \( n_1 = 198 \)
+    \end{tabular}
+\end{center}
+Thus, the total number of samples is \( n = 978 + 198 = 1176 \).
+
+\myspace
+
+\par The prior probabilities for each class can be calculated as follows:
+\[ p(stay) = \frac{n_0}{n} = \frac{978}{978 + 198} \approx 0.832 \]
+\[ p(leave) = \frac{n_1}{n} = \frac{198}{978 + 198} \approx 0.168 \]
 \end{solution}
 % ================================================================================ %
+
+\newpage
 
 \par\noindent\textbf{Naive Bayes classification}
 \par We are now ready to build our Naive Bayes classifier.
@@ -620,13 +746,13 @@ Which makes a decision according to
 \[ H(x) = \frac{p(leave)}{p(stay)} \prod_{i=1} \frac{p( x_i \mid leave )}{p( x_i \mid stay )} \]
 
 If \( H(x) \) is larger than 1, then classify it as \texttt{leave}.
+
 If \( H(x) \) is smaller than 1, then classify it as \texttt{stay}.
 
 Note we often work in the log scale to prevent floating point underflow. In other words,
 \[ lH(x) = \log \paren{ p(leave) } - \log \paren{ p(stay) } + \sum_{i=1} \sqbracket{ \log \paren{ p( x_i \mid leave ) } - \log \paren{ p( x_i \mid stay ) } } \]
 
 If \( lH(x) \) is larger than 0, then classify it as leave. If \( lH(x) \) is smaller than 0, then classify it as stay.
-
 
 % ================================================================================ %
 %                                    Problem T10                                   %
@@ -638,7 +764,9 @@ Propose a method to fix this problem.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The problem of zero probabilities in Naive Bayes can be addressed using a technique called \textbf{Laplace smoothing} (also known as add-one smoothing).
+Laplace smoothing works by adding a small constant (usually 1) to the count of each category in the likelihood estimation.
+This way, even if a category has zero counts in the training data, it will still have a non-zero probability.
 \end{solution}
 % ================================================================================ %
 
@@ -651,12 +779,22 @@ Implement your Naive Bayes classifier.
 Use the learned distributions to classify the \texttt{test\_set}.
 Don't forget to allow your classifier to handle missing values in the test set.
 Report the overall Accuracy.
-Then, report the Precision, Recall, and F score for detecting attrition.
+Then, report the Precision, Recall, and F1 score for detecting attrition.
 See Lecture 1 for the definitions of each metric.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The reporting of the overall Accuracy, Precision, Recall, and F1 score for detecting attrition in \texttt{test\_set} using the Naive Bayes classifier (histogram-based) are as follows:
+\begin{center}
+    \begin{tabular}{c|c}
+        Metric & Value \\
+        \hline
+        Accuracy & 0.8605 \\
+        Precision (Attrition = 1) & 0.4667 \\
+        Recall (Attrition = 1) & 0.3590 \\
+        F1 Score (Attrition = 1) & 0.4058 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -670,6 +808,8 @@ You can do this by calling:
 scipy.stats.norm(mean, std).pdf(feature_value)
 \end{codingbox}
 
+\newpage
+
 % ================================================================================ %
 %                                    Problem T12                                   %
 % ================================================================================ %
@@ -679,7 +819,17 @@ Report the results using the same metric as the previous question.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The reporting of the overall Accuracy, Precision, Recall, and F1 score for detecting attrition in \texttt{test\_set} using the Naive Bayes classifier (Gaussian-based) are as follows:
+\begin{center}
+    \begin{tabular}{c|c}
+        Metric & Value \\
+        \hline
+        Accuracy & 0.8197 \\
+        Precision (Attrition = 1) & 0.3600 \\
+        Recall (Attrition = 1) & 0.4615 \\
+        F1 Score (Attrition = 1) & 0.4045 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -696,11 +846,21 @@ In this homework, we will look at two simple baselines, the random choice, and t
 The random choice baseline is the accuracy if you make a random guess for each test sample.
 Give random guess (50\% leaving, and 50\% staying) to the test samples.
 Report the overall Accuracy. Then, report the Precision, Recall,
-and F score for attrition prediction using the random choice baseline.
+and F1 score for attrition prediction using the random choice baseline.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The results for the random choice baseline are as follows:
+\begin{center}
+    \begin{tabular}{c|c}
+        Metric & Value \\
+        \hline
+        Accuracy & 0.5544 \\
+        Precision (Attrition = 1) & 0.1761 \\
+        Recall (Attrition = 1) & 0.6410 \\
+        F1 Score (Attrition = 1) & 0.2762 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -711,14 +871,25 @@ The solution goes here.
 \begin{Tproblem}
 The majority rule is the accuracy if you use the most frequent class from the training set as the classification decision.
 Report the overall Accuracy.
-Then, report the Precision, Recall, and F score for attrition prediction using the majority rule baseline.
+Then, report the Precision, Recall, and F1 score for attrition prediction using the majority rule baseline.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The results for the majority rule baseline are as follows:
+\begin{center}
+    \begin{tabular}{c|c}
+        Metric & Value \\
+        \hline
+        Accuracy & 0.8673 \\
+        Precision (Attrition = 1) & 0.0000 \\
+        Recall (Attrition = 1) & 0.0000 \\
+        F1 Score (Attrition = 1) & 0.0000 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T15                                   %
@@ -728,13 +899,33 @@ Compare the two baselines with your Naive Bayes classifier.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Comparing the Naive Bayes classifier with the two baselines (random choice and majority rule), we can see the following results:
+\begin{center}
+    \begin{tabular}{c|c|c|c}
+        Metric & Naive Bayes (Histogram) & Random Choice & Majority Rule \\
+        \hline
+        Accuracy & 0.8605 & 0.5544 & 0.8673 \\
+        Precision & 0.4667 & 0.1761 & 0.0000 \\
+        Recall & 0.3590 & 0.6410 & 0.0000 \\
+        F1 Score & 0.4058 & 0.2762 & 0.0000 \\
+    \end{tabular}
+\end{center}
+
+We can compare the results as follows:
+\begin{itemize}
+    \item The Naive Bayes classifier outperforms the random choice baseline in terms of Accuracy, Precision, Recall, and F1 Score.
+    \item The majority rule baseline has a slightly higher Accuracy than the Naive Bayes classifier,
+    but it fails to predict any positive cases (Attrition = 1),
+    resulting in a Precision, Recall, and F1 Score of 0 for attrition prediction.
+\end{itemize}
+
+This highlights the importance of considering multiple evaluation metrics when comparing classifiers, as a high Accuracy does not necessarily indicate good performance in predicting the minority class (Attrition = 1 in this case).
 \end{solution}
 % ================================================================================ %
 
 \par\noindent\textbf{Threshold finding}
 \par In practice, instead of comparing \( lH(x) \) against 0, we usually compare against a threshold, \( t \).
-We can change the threshold so that we maximize the accuracy, precision, recall, or F score
+We can change the threshold so that we maximize the accuracy, precision, recall, or F1 score
 (depending on which measure we want to optimize).
 
 % ================================================================================ %
@@ -743,13 +934,22 @@ We can change the threshold so that we maximize the accuracy, precision, recall,
 \begin{Tproblem}
 Use the following threshold values
 \begin{codingbox}
-    t = np.arange(-5,5,0.05)
+    t = np.arange(-5, 5, 0.05)
 \end{codingbox}
-find the best accuracy, and F score (and the corresponding thresholds)
+find the best accuracy, and F1 score (and the corresponding thresholds)
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+After evaluating the Naive Bayes classifier with different threshold values,
+we can find the best accuracy and F1 score along with their corresponding thresholds.
+\begin{center}
+    \begin{tabular}{c|c|c}
+        Metric & Best Value & Corresponding Threshold \\
+        \hline
+        Accuracy & 0.8776 & 1.65 \\
+        F1 Score & 0.4179 & 0.15 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -778,10 +978,14 @@ Plot the RoC of your classifier.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The RoC curve for the Naive Bayes classifier is plotted below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/RoC-T17.png}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
+\newpage
 
 % ================================================================================ %
 %                                    Problem T18                                   %
@@ -794,7 +998,17 @@ The number of discretization bins can be considered as a hyperparameter, and mus
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+The RoC curve for the Naive Bayes classifier with 5 discretization bins is plotted below:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/RoC-T18.png}
+\end{center}
+
+After comparing the RoC curves for the Naive Bayes classifier with 10 bins and 5 bins, we can see that the curve with 10 bins has a higher area under the curve (AUC) compared to the curve with 5 bins.
+This indicates that the Naive Bayes classifier with 10 bins has better performance in distinguishing between the two classes (Attrition = 0 and Attrition = 1) than the classifier with 5 bins.
+
+\myspace
+
+Therefore, the discretization with \textbf{10 bins is better than the one with 5 bins} for this dataset and classification task.
 \end{solution}
 % ================================================================================ %
 
@@ -804,15 +1018,22 @@ The solution goes here.
 % ================================================================================ %
 \begin{Tproblem}
 Submit your code (.py or .ipynb) on mycourseville.
-If you've made it this far, \textbf{congratulations!} you've just created simple models that can help HR deal with one of their biggest problems.
-Simple, isn't it?
-This is a real world task with real implications, and I personally have been approached by big companies to help with this.
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+There are two parts of the code for this homework.
+\begin{enumerate}
+    \item The code for the basic Naive Bayes classifier (manually calculating the likelihoods and priors) can be found in the appendix \textbf{SimpleBayesClassifier}.
+    \item The code for the Naive Bayes classifier using histogram discretization and Gaussian distribution can be found in the appendix \textbf{homework-2-starter-code}.
+\end{enumerate}
 \end{solution}
 % ================================================================================ %
+
+If you've made it this far, \textbf{congratulations!} you've just created simple models that can help HR deal with one of their biggest problems.
+Simple, isn't it?
+This is a real world task with real implications, and I personally have been approached by big companies to help with this.
+
+\newpage
 
 \par\noindent\textbf{Classifier Variance}
 \par Recall, in class, we talked about the variance of a classifier as the training set changes.
@@ -830,7 +1051,23 @@ Calculate the mean and variance of the accuracy rate.
 \end{OTproblem}
 
 \begin{solution}
-The solution for the \textbf{OT} problem goes here.
+Using the process of shuffling the database and creating new training and test sets, we can evaluate the Naive Bayes classifier 10 times and calculate the mean and variance of the accuracy rate.
+
+\myspace
+
+\textit{Note:} I'm using random seed from 0 to 9 for shuffling the data and creating new training and test sets.
+
+\myspace
+
+After performing the shuffling and evaluation process, we can report the mean and variance of the accuracy rate as follows:
+\begin{center}
+    \begin{tabular}{c|c}
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean Accuracy & 0.8551 \\
+        Variance of Accuracy & 0.0001 \\
+    \end{tabular}
+\end{center}
 \end{solution}
 % ================================================================================ %
 
@@ -839,8 +1076,8 @@ The solution for the \textbf{OT} problem goes here.
 %                                     Appendix                                     %
 % ================================================================================ %
 
-\myappendix{code/homework-2-starter-code.pdf}{Homework 2 Starter Code}
 \myappendix{code/SimpleBayesClassifier.pdf}{SimpleBayesClassifier}
+\myappendix{code/homework-2-starter-code.pdf}{Homework 2 Starter Code}
 
 % ================================================================================ %
 
