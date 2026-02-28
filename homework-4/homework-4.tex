@@ -35,7 +35,73 @@ Find the gradient of \( z \) with respect to \( w_0 \), \( w_1 \), \( b_0 \), an
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+First, let's compute the forward pass:
+
+1. Compute \( x_1 \):
+\begin{align*}
+    x_1 &= ReLU(x_0 * w_0 + b_0) \\
+    &= ReLU(1.0 * 0.3 + 0.1) \\
+    &= ReLU(0.4) \\
+    x_1 &= 0.4
+\end{align*}
+
+2. Compute \( y_1 \):
+\begin{align*}
+    y_1 &= x_1 * w_1 + b_1 \\
+    &= 0.4 * (-0.2) + (-0.3) \\
+    &= -0.08 - 0.3 \\
+    y_1 &= -0.38
+\end{align*}
+
+3. Compute \( z \):
+\begin{align*}
+    z &= ReLU(y_1 + x_0) \\
+    &= ReLU(-0.38 + 1.0) \\
+    &= ReLU(0.62) \\
+    z &= 0.62
+\end{align*}
+
+Thus, the output of the forward pass is \( \boxed{ z = 0.62 } \).
+
+Next, let's compute the backward pass:
+
+1. Compute the gradient of \( z \) with respect to \( y_1 \) and \( x_0 \):
+\begin{align*}
+    \frac{\partial z}{\partial y_1} &= 1 \quad \text{(since \( y_1 + x_0 = 0.62 > 0 \))} \\
+    \frac{\partial z}{\partial x_0} &= 1 \quad \text{(since \( y_1 + x_0 = 0.62 > 0 \))}
+\end{align*}
+
+2. Compute the gradient of \( y_1 \) with respect to \( x_1 \), \( w_1 \), and \( b_1 \):
+\begin{align*}
+    \frac{\partial y_1}{\partial x_1} &= w_1 = -0.2 \\
+    \frac{\partial y_1}{\partial w_1} &= x_1 = 0.4 \\
+    \frac{\partial y_1}{\partial b_1} &= 1
+\end{align*}
+
+3. Compute the gradient of \( x_1 \) with respect to \( x_0 \), \( w_0 \), and \( b_0 \):
+\begin{align*}
+    \frac{\partial x_1}{\partial x_0} &= w_0 = 0.3 \quad \text{(since \( x_0 * w_0 + b_0 = 0.4 > 0 \))} \\
+    \frac{\partial x_1}{\partial w_0} &= x_0 = 1.0 \quad \text{(since \( x_0 * w_0 + b_0 = 0.4 > 0 \))} \\
+    \frac{\partial x_1}{\partial b_0} &= 1 \quad \text{(since \( x_0 * w_0 + b_0 = 0.4 > 0 \))}
+\end{align*}
+
+4. Now we can compute the gradients of \( z \) with respect to \( w_0 \), \( w_1 \), \( b_0 \), and \( b_1 \) using the chain rule:
+\begin{align*}
+    \frac{\partial z}{\partial w_1} &= \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial w_1} = 1 \cdot 0.4 = 0.4 \\
+    \frac{\partial z}{\partial b_1} &= \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial b_1} = 1 \cdot 1 = 1 \\
+    \frac{\partial z}{\partial w_0} &= \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x_1} \cdot \frac{\partial x_1}{\partial w_0} = 1 \cdot (-0.2) \cdot 1.0 = -0.2 \\
+    \frac{\partial z}{\partial b_0} &= \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x_1} \cdot \frac{\partial x_1}{\partial b_0} = 1 \cdot (-0.2) \cdot 1 = -0.2
+\end{align*}
+
+Thus, the gradients are:
+\[
+    \boxed{
+        \frac{\partial z}{\partial w_0} = -0.2, \quad
+        \frac{\partial z}{\partial w_1} = 0.4, \quad
+        \frac{\partial z}{\partial b_0} = -0.2, \quad
+        \frac{\partial z}{\partial b_1} = 1
+    }
+\]
 \end{solution}
 % ================================================================================ %
 
@@ -51,7 +117,15 @@ Given the following network architecture specifications, determine the size of t
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Let's analyze the network architecture step by step:
+
+1. The input layer has a size of \textbf{30 features}.
+
+2. The first hidden layer has \textbf{1024 neurons}, so the output \textbf{A will have a size of 1024}.
+
+3. The second hidden layer has \textbf{512 neurons}, so the output \textbf{B will have a size of 512}.
+
+4. The output layer has \textbf{1 neuron}, so the output \textbf{C will have a size of 1}.
 \end{solution}
 % ================================================================================ %
 
@@ -65,7 +139,33 @@ What is the total number of learnable parameters in this network?
 \end{Tproblem}
 
 \begin{solution}
-The solution goes here.
+Since we have three layers of learnable parameters, we will compute the number of parameters for each layer and then sum them up.
+
+\myspace
+
+1. For the first hidden layer (input to first hidden layer):
+\begin{enumerate}
+    \item Weights: \( 30 \text{ (input features)} \times 1024 \text{ (neurons)} = 30720 \)
+    \item Biases: \( 1024 \text{ (neurons)} = 1024 \)
+    \item Total for first hidden layer: \( 30720 + 1024 = 31744 \)
+\end{enumerate}
+
+2. For the second hidden layer (first hidden layer to second hidden layer):
+\begin{enumerate}
+    \item Weights: \( 1024 \text{ (neurons in first hidden layer)} \times 512 \text{ (neurons in second hidden layer)}\) = 524288
+    \item Biases: \( 512 \text{ (neurons)} = 512 \)
+    \item Total for second hidden layer: \( 524288 + 512 = 524800 \)
+\end{enumerate}
+
+3. For the output layer (second hidden layer to output layer):
+\begin{enumerate}
+    \item Weights: \( 512 \text{ (neurons in second hidden layer)} \times 1 \text{ (neuron in output layer)} = 512 \)
+    \item Biases: \( 1 \text{ (neuron)} = 1 \)
+    \item Total for output layer: \( 512 + 1 = 513 \)
+\end{enumerate}
+
+Now, we can sum up the total number of learnable parameters:
+\[ \text{Total parameters} = 31744 + 524800 + 513 = \textbf{557057 \; \text{learnable parameters}} \]
 \end{solution}
 % ================================================================================ %
 
@@ -97,16 +197,58 @@ In other words, find \( \frac{\partial L}{\partial h_i} \) for \( i \in \set{0, 
 Then, use the results with chain rule to find the derivative of the loss.
 \end{Tproblem}
 
-\begin{solution}
-The solution goes here.
-\end{solution}
+\begin{proofbox}
+Consider the cross entropy loss:
+\begin{align*}
+    L &= -\sum_j y_j \log P(y = j) \\
+    \frac{\partial{L}}{\partial h_i} &= \frac{\partial}{\partial h_i} \sqbracket{ -\sum_j y_j \log P(y = j) } \\
+    &= -\sum_j y_j \paren{ \frac{\partial}{\partial h_i} \log P(y = j) } \\
+    \frac{\partial{L}}{\partial h_i} &= -\sum_j y_j \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i}
+\end{align*}
+
+Next, we will find \( \frac{\partial P(y = j)}{\partial h_i} \) for the two cases:
+\begin{itemize}
+    \item When \( j = i \):
+    \begin{align*}
+        \frac{\partial P(y = j)}{\partial h_i} &= \frac{\partial}{\partial h_i} \sqbracket{ \frac{ exp(h_i) }{ \sum_k exp(h_k) } } \\
+        &= \frac{ \paren{ \sum_k exp(h_k) } \frac{\partial}{\partial h_i} exp(h_i) - exp(h_i) \frac{\partial}{\partial h_i} \paren{ \sum_k exp(h_k) } }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        &= \frac{ \paren{ \sum_k exp(h_k) } exp(h_i) - exp(h_i) \cdot exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        &= \frac{ \paren{ \sum_k exp(h_k) - exp(h_i) } exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        \frac{\partial P(y = j)}{\partial h_i} &= \frac{ \paren{ \sum_{k \neq i} exp(h_k) } exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} &= \frac{ \sum_k exp(h_k) }{ exp(h_i) } \times \frac{ \paren{ \sum_{k \neq i} exp(h_k) } exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} &= \frac{ \sum_{k \neq i} exp(h_k) }{ \sum_k exp(h_k) }
+    \end{align*}
+    \item When \( j \neq i \):
+    \begin{align*}
+        \frac{\partial P(y = j)}{\partial h_i} &= \frac{\partial}{\partial h_i} \sqbracket{ \frac{ exp(h_j) }{ \sum_k exp(h_k) } } \\
+        &= \frac{ \paren{ \sum_k exp(h_k) } \frac{\partial}{\partial h_i} exp(h_j) - exp(h_j) \frac{\partial}{\partial h_i} \paren{ \sum_k exp(h_k) } }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        &= \frac{ 0 - exp(h_j) \cdot exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        \frac{\partial P(y = j)}{\partial h_i} &= -\frac{ exp(h_j) \cdot exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } \\
+        \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} &= \frac{ \sum_k exp(h_k) }{ exp(h_j) } \times \sqbracket{ -\frac{ exp(h_j) \cdot exp(h_i) }{ \paren{ \sum_k exp(h_k) }^2 } } \\
+        \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} &= -\frac{ exp(h_i) }{ \sum_k exp(h_k) }
+    \end{align*}
+\end{itemize}
+
+Now, we can substitute the results back into the expression for \( \frac{\partial L}{\partial h_i} \):
+\begin{align*}
+    \frac{\partial{L}}{\partial h_i} &= -\sum_j y_j \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} \\
+    &= -y_i \frac{1}{P(y = i)} \frac{\partial P(y = i)}{\partial h_i} - \sum_{j \neq i} y_j \frac{1}{P(y = j)} \frac{\partial P(y = j)}{\partial h_i} \\
+    &= -y_i \frac{ \sum_{k \neq i} exp(h_k) }{ \sum_k exp(h_k) } + \sum_{j \neq i} y_j \frac{ exp(h_i) }{ \sum_k exp(h_k) } \\
+    &= -y_i \frac{ \sum_{k \neq i} exp(h_k) }{ \sum_k exp(h_k) } + \frac{ exp(h_i) }{ \sum_k exp(h_k) } \sum_{j \neq i} y_j \\
+    &= -y_i \frac{ \sum_{k \neq i} exp(h_k) }{ \sum_k exp(h_k) } + \frac{ exp(h_i) }{ \sum_k exp(h_k) } (1 - y_i) \\
+    &= -y_i \frac{ \sum_{k \neq i} exp(h_k) }{ \sum_k exp(h_k) } + \frac{ exp(h_i) }{ \sum_k exp(h_k) } - y_i \frac{ exp(h_i) }{ \sum_k exp(h_k) } \\
+    &= \frac{ exp(h_i) }{ \sum_k exp(h_k) } - y_i \frac{ \sum_{k \neq i} exp(h_k) + exp(h_i) }{ \sum_k exp(h_k) } \\
+    &= P(y = i) - y_i \frac{ \sum_k exp(h_k) }{ \sum_k exp(h_k) } \\
+    \frac{\partial{L}}{\partial h_i} &= P(y = i) - y_i
+\end{align*}
+\end{proofbox}
 % ================================================================================ %
 
 Next, we will code a simple neural network using numpy.
 Use the starter code \texttt{hw4.zip} on github.
 There are 8 tasks you need to complete in the starter code.
 
-\paragraph{\textbf{Hints:}}
+\par \textbf{Hints:}
 In order to do this part of the assignment, you will need to find gradients of vectors over matrices.
 We have done gradients of scalars (Traces) over matrices before, which is a matrix (two-dimensional).
 However, gradients of vectors over matrices will be a tensor (three-dimensional),
@@ -119,9 +261,21 @@ For more information, you can read this simple guide \href{http://cs231n.stanfor
 \textbf{Happy coding.}
 
 \begin{center}
-    \includegraphics[width=0.6\textwidth]{images/deep_cat_network.png}
+    \includegraphics[width=0.5\textwidth]{images/deep_cat_network.png}
 \end{center}
 
-All the tasks that are in the starter code, also the result and writeup solution, will be given in the \textbf{Appendix 1:} Simple Neural Network.
+All the tasks that are in the starter code, also the result and writeup solution,
+will be given in the \textbf{Appendix 1:} Simple Neural Network.
+
+
+% ================================================================================ %
+%                                     Appendix                                     %
+% ================================================================================ %
+
+\myappendix{code/simple-neural-network.pdf}{Simple Neural Network}
+\myappendix{code/cattern.pdf}{Homework 4 Template Code in \texttt{CATTERN} Directory}
+\myappendix{code/mnist_data.pdf}{Homework 4 Template Code in \texttt{MNIST\_DATA} Directory}
+
+% ================================================================================ %
 
 \end{document}
