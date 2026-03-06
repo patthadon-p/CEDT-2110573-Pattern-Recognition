@@ -1,0 +1,1 @@
+mse_difference = np.mean((theta_gradient_descent - theta_matrix_inversion) ** 2)

@@ -1,10 +1,10 @@
 # Fdb version 3
-["pdflatex"] 1772821572 "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-6/homework-6.tex" "homework-6.pdf" "homework-6" 1772821573
+["pdflatex"] 1772822637 "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-6/homework-6.tex" "homework-6.pdf" "homework-6" 1772822637
   "../CEDT-Homework-style.sty" 1771041690 9620 b340e33ca229d0bbdd0bbaf5aa52833b ""
-  ".build/homework-6.aux" 1772821532 851 303a452a9577e9f8e3075506d61aa817 ""
-  ".build/homework-6.out" 1772821532 220 c3ac51c6a6fbd4d1aba420387e01af19 ""
+  ".build/homework-6.aux" 1772822637 842 2273c972bfff506b8b3292d2fe8f9c38 "pdflatex"
+  ".build/homework-6.out" 1772822637 166 0b45cba81c55262ce5719ce36f873250 "pdflatex"
   "/etc/texmf/web2c/texmf.cnf" 1754927818 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-6/homework-6.tex" 1772821572 1070 2745e2e21543979e999ebd979317c93f ""
+  "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-6/homework-6.tex" 1772822637 1070 2745e2e21543979e999ebd979317c93f ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -242,10 +242,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1759656328 4275459 848e45d4e89b82fd856f89658a5f6e30 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1759656341 1435784 bb6d690a87d0aae7e9de35aeed817c78 ""
-  "homework-6.tex" 1772821572 1070 2745e2e21543979e999ebd979317c93f ""
+  "homework-6.tex" 1772822637 1070 2745e2e21543979e999ebd979317c93f ""
   (generated)
+  ".build/homework-6.aux"
   ".build/homework-6.log"
-  "homework-6.aux"
-  "homework-6.log"
-  "homework-6.out"
+  ".build/homework-6.out"
   "homework-6.pdf"
