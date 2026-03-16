@@ -163,3 +163,7 @@ Desktop.ini
 # *.joblib
 # *.h5
 # *.pb
+
+# Homework 5
+homework-5/code/dataset/
+homework-5/code/nowcastingHWdataset.tar.gz
