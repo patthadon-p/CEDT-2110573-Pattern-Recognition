@@ -1,10 +1,10 @@
 # Fdb version 3
-["pdflatex"] 1774169173 "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-7/homework-7.tex" "homework-7.pdf" "homework-7" 1774169174
+["pdflatex"] 1774186314 "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-7/homework-7.tex" "homework-7.pdf" "homework-7" 1774186315
   "../CEDT-Homework-style.sty" 1771041690 9620 b340e33ca229d0bbdd0bbaf5aa52833b ""
-  ".build/homework-7.aux" 1774169174 855 593e66a22173ce5025eef6648ed15d2c "pdflatex"
-  ".build/homework-7.out" 1774169174 237 6af70dfca2d02005646a8ee87ef59a63 "pdflatex"
+  ".build/homework-7.aux" 1774186315 856 d714b563c76be9148fd321e75d876ec0 "pdflatex"
+  ".build/homework-7.out" 1774186315 237 6af70dfca2d02005646a8ee87ef59a63 "pdflatex"
   "/etc/texmf/web2c/texmf.cnf" 1754927818 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-7/homework-7.tex" 1774169171 1019 3aff51b5ab3d94c86519e08d6785d018 ""
+  "/home/nodahttap/study/cedt-2-2/2110573-pattern/CEDT-2110573-Pattern-Recognition/homework-7/homework-7.tex" 1774186313 1017 2ea329609442e27495004329d6bc0fce ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -17,6 +17,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb" 1248133631 36310 f5ddc6715cc60deb16d9db5ded6a9391 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -242,7 +243,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1759656328 4275459 848e45d4e89b82fd856f89658a5f6e30 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1759656341 1435784 bb6d690a87d0aae7e9de35aeed817c78 ""
-  "homework-7.tex" 1774169171 1019 3aff51b5ab3d94c86519e08d6785d018 ""
+  "code/GANs.pdf" 1774186307 90435 1bae7212f1023933b8d196303e484f31 ""
+  "homework-7.tex" 1774186313 1017 2ea329609442e27495004329d6bc0fce ""
   (generated)
   ".build/homework-7.aux"
   ".build/homework-7.log"
